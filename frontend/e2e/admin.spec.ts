@@ -1,0 +1,30 @@
+import { expect, test } from '@playwright/test';
+
+test('administrator creates and deactivates a user and sees the audit event', async ({ page }) => {
+  const email = process.env.E2E_EMAIL, password = process.env.E2E_NEW_PASSWORD, temporary = process.env.E2E_TEMP_PASSWORD;
+  if (!email || !password || !temporary) throw new Error('Set E2E_EMAIL, E2E_NEW_PASSWORD and E2E_TEMP_PASSWORD for an isolated test deployment.');
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
+  const name = `Test Person ${Date.now()}`;
+  const userEmail = `test-${Date.now()}@example.com`;
+  await page.goto('/');
+  await page.getByLabel('Email').fill(email);
+  await page.getByLabel('Password', { exact: true }).fill(password);
+  await page.getByRole('button', { name: 'Sign in' }).click();
+  await page.getByRole('link', { name: 'Administration' }).click();
+  await page.getByRole('button', { name: 'New user' }).click();
+  const dialog = page.getByRole('dialog');
+  await dialog.getByLabel('Name', { exact: true }).fill(name);
+  await dialog.getByLabel('Email').fill(userEmail);
+  await dialog.getByLabel('Temporary password').fill(temporary);
+  await dialog.getByRole('button', { name: 'Save' }).click();
+  const row = page.getByRole('row').filter({ hasText: userEmail });
+  await expect(row).toContainText('Active');
+  page.once('dialog', dialog => dialog.accept());
+  await row.getByRole('button', { name: 'Deactivate' }).click();
+  await expect(row).toContainText('Inactive');
+  await page.getByRole('button', { name: 'Audit', exact: true }).click();
+  await expect(page.getByRole('row').filter({ hasText: `Deactivated ${name}` })).toBeVisible();
+  expect(errors).toEqual([]);
+});

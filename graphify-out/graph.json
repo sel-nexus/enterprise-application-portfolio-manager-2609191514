@@ -979,7 +979,7 @@
       "label": ".create()",
       "file_type": "code",
       "source_file": "backend/app/applications/repository.py",
-      "source_location": "L53",
+      "source_location": "L57",
       "_callable": true,
       "_origin": "ast"
     },
@@ -988,7 +988,7 @@
       "label": ".update()",
       "file_type": "code",
       "source_file": "backend/app/applications/repository.py",
-      "source_location": "L58",
+      "source_location": "L62",
       "_callable": true,
       "_origin": "ast"
     },
@@ -997,7 +997,7 @@
       "label": ".delete()",
       "file_type": "code",
       "source_file": "backend/app/applications/repository.py",
-      "source_location": "L64",
+      "source_location": "L68",
       "_callable": true,
       "_origin": "ast"
     },
@@ -1058,27 +1058,27 @@
       "_origin": "ast"
     },
     {
-      "id": "backend_app_applications_repository_rationale_54",
+      "id": "backend_app_applications_repository_rationale_58",
       "label": "Insert and reload an application.",
       "file_type": "rationale",
       "source_file": "backend/app/applications/repository.py",
-      "source_location": "L54",
+      "source_location": "L58",
       "_origin": "ast"
     },
     {
-      "id": "backend_app_applications_repository_rationale_59",
+      "id": "backend_app_applications_repository_rationale_63",
       "label": "Update only if the portfolio has not changed since authorization.",
       "file_type": "rationale",
       "source_file": "backend/app/applications/repository.py",
-      "source_location": "L59",
+      "source_location": "L63",
       "_origin": "ast"
     },
     {
-      "id": "backend_app_applications_repository_rationale_65",
+      "id": "backend_app_applications_repository_rationale_69",
       "label": "Delete the application and related reviews and directional links.",
       "file_type": "rationale",
       "source_file": "backend/app/applications/repository.py",
-      "source_location": "L65",
+      "source_location": "L69",
       "_origin": "ast"
     },
     {
@@ -2364,7 +2364,7 @@
       "label": "lifespan()",
       "file_type": "code",
       "source_file": "backend/app/main.py",
-      "source_location": "L23",
+      "source_location": "L24",
       "_callable": true,
       "_origin": "ast",
       "community": 0
@@ -2392,7 +2392,7 @@
       "label": "health()",
       "file_type": "code",
       "source_file": "backend/app/main.py",
-      "source_location": "L52",
+      "source_location": "L54",
       "_callable": true,
       "_origin": "ast",
       "community": 3
@@ -2407,19 +2407,19 @@
       "community": 3
     },
     {
-      "id": "backend_app_main_rationale_24",
+      "id": "backend_app_main_rationale_25",
       "label": "Open one pooled client, initialize indexes and optionally bootstrap.",
       "file_type": "rationale",
       "source_file": "backend/app/main.py",
-      "source_location": "L24",
+      "source_location": "L25",
       "_origin": "ast"
     },
     {
-      "id": "backend_app_main_rationale_53",
+      "id": "backend_app_main_rationale_55",
       "label": "Report process liveness without querying dependencies.",
       "file_type": "rationale",
       "source_file": "backend/app/main.py",
-      "source_location": "L53",
+      "source_location": "L55",
       "_origin": "ast"
     },
     {
@@ -3103,6 +3103,485 @@
       "file_type": "rationale",
       "source_file": "backend/app/portfolios/service.py",
       "source_location": "L74",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_repository",
+      "label": "repository.py",
+      "file_type": "code",
+      "source_file": "backend/app/reporting/repository.py",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_repository_reportingrepository",
+      "label": "ReportingRepository",
+      "file_type": "code",
+      "source_file": "backend/app/reporting/repository.py",
+      "source_location": "L6",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_repository_reportingrepository_init",
+      "label": ".__init__()",
+      "file_type": "code",
+      "source_file": "backend/app/reporting/repository.py",
+      "source_location": "L8",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_repository_py_asyncdatabase",
+      "label": "AsyncDatabase",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_repository_reportingrepository_estate",
+      "label": ".estate()",
+      "file_type": "code",
+      "source_file": "backend/app/reporting/repository.py",
+      "source_location": "L12",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_repository_rationale_1",
+      "label": "Read reporting source documents from the shared Mongo database.",
+      "file_type": "rationale",
+      "source_file": "backend/app/reporting/repository.py",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_repository_rationale_7",
+      "label": "Read only portfolios in the caller's authorized scope.",
+      "file_type": "rationale",
+      "source_file": "backend/app/reporting/repository.py",
+      "source_location": "L7",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_repository_rationale_9",
+      "label": "Bind the pooled database.",
+      "file_type": "rationale",
+      "source_file": "backend/app/reporting/repository.py",
+      "source_location": "L9",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_repository_rationale_13",
+      "label": "Load scoped identities, deterministic latest reviews and visible links.",
+      "file_type": "rationale",
+      "source_file": "backend/app/reporting/repository.py",
+      "source_location": "L13",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_router",
+      "label": "router.py",
+      "file_type": "code",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_router_get_service",
+      "label": "get_service()",
+      "file_type": "code",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L15",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_router_py_asyncdatabase",
+      "label": "AsyncDatabase",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_router_py_depends",
+      "label": "Depends",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_router_py_get_accounts",
+      "label": "get_accounts",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_router_get_filters",
+      "label": "get_filters()",
+      "file_type": "code",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L20",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_router_py_query",
+      "label": "Query",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_router_py_max_length",
+      "label": "max_length",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_router_py_get",
+      "label": "get",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_router_dashboard",
+      "label": "dashboard()",
+      "file_type": "code",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L26",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_router_report",
+      "label": "report()",
+      "file_type": "code",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L32",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_router_py_ge",
+      "label": "ge",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_router_py_le",
+      "label": "le",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_router_export",
+      "label": "export()",
+      "file_type": "code",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L39",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_router_py_response",
+      "label": "Response",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_router_rationale_1",
+      "label": "Expose authenticated dashboard and report endpoints.",
+      "file_type": "rationale",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_router_rationale_16",
+      "label": "Bind reporting to the shared database and authorization.",
+      "file_type": "rationale",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L16",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_router_rationale_21",
+      "label": "Validate supported inventory filters.",
+      "file_type": "rationale",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L21",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_router_rationale_27",
+      "label": "Return scoped dashboard metrics.",
+      "file_type": "rationale",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L27",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_router_rationale_33",
+      "label": "Return a bounded page of scoped report rows.",
+      "file_type": "rationale",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L33",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_router_rationale_40",
+      "label": "Download an authorized and audited CSV report.",
+      "file_type": "rationale",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L40",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_schemas",
+      "label": "schemas.py",
+      "file_type": "code",
+      "source_file": "backend/app/reporting/schemas.py",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_schemas_filters",
+      "label": "Filters",
+      "file_type": "code",
+      "source_file": "backend/app/reporting/schemas.py",
+      "source_location": "L6",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_schemas_py_basemodel",
+      "label": "BaseModel",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_schemas_page",
+      "label": "Page",
+      "file_type": "code",
+      "source_file": "backend/app/reporting/schemas.py",
+      "source_location": "L17",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_schemas_rationale_1",
+      "label": "Define validated reporting filters and result shapes.",
+      "file_type": "rationale",
+      "source_file": "backend/app/reporting/schemas.py",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_schemas_rationale_7",
+      "label": "Restrict report queries to supported inventory filters.",
+      "file_type": "rationale",
+      "source_file": "backend/app/reporting/schemas.py",
+      "source_location": "L7",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_schemas_rationale_18",
+      "label": "Describe a bounded report page.",
+      "file_type": "rationale",
+      "source_file": "backend/app/reporting/schemas.py",
+      "source_location": "L18",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_service",
+      "label": "service.py",
+      "file_type": "code",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_service_average",
+      "label": "average()",
+      "file_type": "code",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L14",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_service_reportingservice",
+      "label": "ReportingService",
+      "file_type": "code",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L20",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_service_reportingservice_init",
+      "label": ".__init__()",
+      "file_type": "code",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L22",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_service_reportingservice_source",
+      "label": ".source()",
+      "file_type": "code",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L26",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_service_reportingservice_filter_rows",
+      "label": ".filter_rows()",
+      "file_type": "code",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L47",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_service_reportingservice_portfolio_rows",
+      "label": ".portfolio_rows()",
+      "file_type": "code",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L59",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_service_reportingservice_dashboard",
+      "label": ".dashboard()",
+      "file_type": "code",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L68",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_service_reportingservice_report",
+      "label": ".report()",
+      "file_type": "code",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L78",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_service_reportingservice_export",
+      "label": ".export()",
+      "file_type": "code",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L85",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_service_rationale_1",
+      "label": "Calculate scoped dashboard metrics and report rows.",
+      "file_type": "rationale",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_service_rationale_15",
+      "label": "Round the mean of available values, or return no value.",
+      "file_type": "rationale",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L15",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_service_rationale_21",
+      "label": "Enforce scope and derive current values from reviews.",
+      "file_type": "rationale",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L21",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_service_rationale_23",
+      "label": "Bind database and authorization collaborators.",
+      "file_type": "rationale",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L23",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_service_rationale_27",
+      "label": "Build report rows after enforcing role and portfolio permissions.",
+      "file_type": "rationale",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L27",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_service_rationale_48",
+      "label": "Apply filters consistently before pagination or export.",
+      "file_type": "rationale",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L48",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_service_rationale_60",
+      "label": "Roll up eligible application reviews for each portfolio.",
+      "file_type": "rationale",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L60",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_service_rationale_69",
+      "label": "Calculate cards and portfolio chart values for eligible applications.",
+      "file_type": "rationale",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L69",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_service_rationale_79",
+      "label": "Return report rows, including archived and retired records by default.",
+      "file_type": "rationale",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L79",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_app_reporting_service_rationale_86",
+      "label": "Generate injection-safe CSV and record the export event.",
+      "file_type": "rationale",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L86",
       "_origin": "ast"
     },
     {
@@ -4248,6 +4727,126 @@
       "_origin": "ast"
     },
     {
+      "id": "backend_tests_test_reporting",
+      "label": "test_reporting.py",
+      "file_type": "code",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_tests_test_reporting_py_fixture",
+      "label": "fixture",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_tests_test_reporting_env",
+      "label": "env()",
+      "file_type": "code",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L21",
+      "_py_fixture": "?",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_tests_test_reporting_add_portfolio",
+      "label": "add_portfolio()",
+      "file_type": "code",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L44",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_tests_test_reporting_add_app",
+      "label": "add_app()",
+      "file_type": "code",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L49",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_tests_test_reporting_add_review",
+      "label": "add_review()",
+      "file_type": "code",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L55",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_tests_test_reporting_test_dashboard_latest_filters_lifecycle_and_empty",
+      "label": "test_dashboard_latest_filters_lifecycle_and_empty()",
+      "file_type": "code",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L60",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_tests_test_reporting_test_reports_export_scope_and_csv_injection",
+      "label": "test_reports_export_scope_and_csv_injection()",
+      "file_type": "code",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L91",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_tests_test_reporting_test_empty_report_and_filtered_export",
+      "label": "test_empty_report_and_filtered_export()",
+      "file_type": "code",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L120",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_tests_test_reporting_rationale_1",
+      "label": "Exercise reporting APIs against an isolated real Mongo database.",
+      "file_type": "rationale",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_tests_test_reporting_rationale_22",
+      "label": "Create a disposable database and authenticated users.",
+      "file_type": "rationale",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L22",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_tests_test_reporting_rationale_45",
+      "label": "Persist a portfolio and return its public ID.",
+      "file_type": "rationale",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L45",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_tests_test_reporting_rationale_50",
+      "label": "Persist an inventory identity.",
+      "file_type": "rationale",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L50",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_tests_test_reporting_rationale_56",
+      "label": "Persist a review with explicit tie-breaking time.",
+      "file_type": "rationale",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L56",
+      "_origin": "ast"
+    },
+    {
       "id": "backend_tests_test_reviews",
       "label": "test_reviews.py",
       "file_type": "code",
@@ -4388,6 +4987,14 @@
       "label": "portfolios.spec.ts",
       "file_type": "code",
       "source_file": "frontend/e2e/portfolios.spec.ts",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "frontend_e2e_reporting_spec",
+      "label": "reporting.spec.ts",
+      "file_type": "code",
+      "source_file": "frontend/e2e/reporting.spec.ts",
       "source_location": "L1",
       "_origin": "ast"
     },
@@ -5050,7 +5657,7 @@
       "label": "Shell()",
       "file_type": "code",
       "source_file": "frontend/src/App.tsx",
-      "source_location": "L15",
+      "source_location": "L17",
       "_callable": true,
       "_origin": "ast",
       "community": 2
@@ -5060,7 +5667,7 @@
       "label": "clear()",
       "file_type": "code",
       "source_file": "frontend/src/App.tsx",
-      "source_location": "L24",
+      "source_location": "L26",
       "_callable": true,
       "_origin": "ast",
       "community": 2
@@ -5070,7 +5677,7 @@
       "label": "accept()",
       "file_type": "code",
       "source_file": "frontend/src/App.tsx",
-      "source_location": "L25",
+      "source_location": "L27",
       "_callable": true,
       "_origin": "ast",
       "community": 2
@@ -5080,7 +5687,7 @@
       "label": "signOut()",
       "file_type": "code",
       "source_file": "frontend/src/App.tsx",
-      "source_location": "L44",
+      "source_location": "L46",
       "_callable": true,
       "_origin": "ast",
       "community": 2
@@ -5090,7 +5697,7 @@
       "label": "App()",
       "file_type": "code",
       "source_file": "frontend/src/App.tsx",
-      "source_location": "L74",
+      "source_location": "L78",
       "_callable": true,
       "_origin": "ast",
       "community": 2
@@ -5323,7 +5930,7 @@
       "label": "Props",
       "file_type": "code",
       "source_file": "frontend/src/applications/Applications.tsx",
-      "source_location": "L9",
+      "source_location": "L10",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast"
@@ -5333,7 +5940,7 @@
       "label": "Applications()",
       "file_type": "code",
       "source_file": "frontend/src/applications/Applications.tsx",
-      "source_location": "L12",
+      "source_location": "L13",
       "_callable": true,
       "_origin": "ast"
     },
@@ -5342,7 +5949,7 @@
       "label": "change()",
       "file_type": "code",
       "source_file": "frontend/src/applications/Applications.tsx",
-      "source_location": "L24",
+      "source_location": "L25",
       "_callable": true,
       "_origin": "ast"
     },
@@ -5351,7 +5958,7 @@
       "label": "load()",
       "file_type": "code",
       "source_file": "frontend/src/applications/Applications.tsx",
-      "source_location": "L43",
+      "source_location": "L44",
       "_callable": true,
       "_origin": "ast"
     },
@@ -5360,7 +5967,7 @@
       "label": "save()",
       "file_type": "code",
       "source_file": "frontend/src/applications/Applications.tsx",
-      "source_location": "L54",
+      "source_location": "L55",
       "_callable": true,
       "_origin": "ast"
     },
@@ -5721,7 +6328,7 @@
       "label": "account",
       "file_type": "code",
       "source_file": "frontend/src/portfolios/Portfolios.test.tsx",
-      "source_location": "L10",
+      "source_location": "L12",
       "_origin": "ast"
     },
     {
@@ -5729,7 +6336,7 @@
       "label": "portfolio",
       "file_type": "code",
       "source_file": "frontend/src/portfolios/Portfolios.test.tsx",
-      "source_location": "L11",
+      "source_location": "L13",
       "_origin": "ast"
     },
     {
@@ -5745,7 +6352,7 @@
       "label": "Props",
       "file_type": "code",
       "source_file": "frontend/src/portfolios/Portfolios.tsx",
-      "source_location": "L7",
+      "source_location": "L9",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast"
@@ -5755,7 +6362,16 @@
       "label": "Portfolios()",
       "file_type": "code",
       "source_file": "frontend/src/portfolios/Portfolios.tsx",
-      "source_location": "L10",
+      "source_location": "L12",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "frontend_src_portfolios_portfolios_portfolios_load",
+      "label": "load()",
+      "file_type": "code",
+      "source_file": "frontend/src/portfolios/Portfolios.tsx",
+      "source_location": "L45",
       "_callable": true,
       "_origin": "ast"
     },
@@ -5764,7 +6380,7 @@
       "label": "save()",
       "file_type": "code",
       "source_file": "frontend/src/portfolios/Portfolios.tsx",
-      "source_location": "L45",
+      "source_location": "L59",
       "_callable": true,
       "_origin": "ast"
     },
@@ -5773,7 +6389,165 @@
       "label": "confirm()",
       "file_type": "code",
       "source_file": "frontend/src/portfolios/Portfolios.tsx",
-      "source_location": "L49",
+      "source_location": "L63",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "frontend_src_reporting_api",
+      "label": "api.ts",
+      "file_type": "code",
+      "source_file": "frontend/src/reporting/api.ts",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "frontend_src_reporting_api_portfoliorow",
+      "label": "PortfolioRow",
+      "file_type": "code",
+      "source_file": "frontend/src/reporting/api.ts",
+      "source_location": "L3",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "frontend_src_reporting_api_dashboarddata",
+      "label": "DashboardData",
+      "file_type": "code",
+      "source_file": "frontend/src/reporting/api.ts",
+      "source_location": "L8",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "frontend_src_reporting_api_reportrow",
+      "label": "ReportRow",
+      "file_type": "code",
+      "source_file": "frontend/src/reporting/api.ts",
+      "source_location": "L13",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "frontend_src_reporting_api_reportpage",
+      "label": "ReportPage",
+      "file_type": "code",
+      "source_file": "frontend/src/reporting/api.ts",
+      "source_location": "L14",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "frontend_src_reporting_api_request",
+      "label": "request()",
+      "file_type": "code",
+      "source_file": "frontend/src/reporting/api.ts",
+      "source_location": "L18",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "frontend_src_reporting_api_reportingapi",
+      "label": "reportingApi",
+      "file_type": "code",
+      "source_file": "frontend/src/reporting/api.ts",
+      "source_location": "L24",
+      "_origin": "ast"
+    },
+    {
+      "id": "frontend_src_reporting_api_applicationcolumns",
+      "label": "applicationColumns",
+      "file_type": "code",
+      "source_file": "frontend/src/reporting/api.ts",
+      "source_location": "L36",
+      "_origin": "ast"
+    },
+    {
+      "id": "frontend_src_reporting_api_portfoliocolumns",
+      "label": "portfolioColumns",
+      "file_type": "code",
+      "source_file": "frontend/src/reporting/api.ts",
+      "source_location": "L37",
+      "_origin": "ast"
+    },
+    {
+      "id": "frontend_src_reporting_dashboard_test",
+      "label": "Dashboard.test.tsx",
+      "file_type": "code",
+      "source_file": "frontend/src/reporting/Dashboard.test.tsx",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "frontend_src_reporting_dashboard_test_account",
+      "label": "account",
+      "file_type": "code",
+      "source_file": "frontend/src/reporting/Dashboard.test.tsx",
+      "source_location": "L11",
+      "_origin": "ast"
+    },
+    {
+      "id": "frontend_src_reporting_dashboard",
+      "label": "Dashboard.tsx",
+      "file_type": "code",
+      "source_file": "frontend/src/reporting/Dashboard.tsx",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "frontend_src_reporting_dashboard_dashboard",
+      "label": "Dashboard()",
+      "file_type": "code",
+      "source_file": "frontend/src/reporting/Dashboard.tsx",
+      "source_location": "L7",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "frontend_src_reporting_dashboard_dashboard_change",
+      "label": "change()",
+      "file_type": "code",
+      "source_file": "frontend/src/reporting/Dashboard.tsx",
+      "source_location": "L19",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "frontend_src_reporting_dashboard_dashboard_chart",
+      "label": "chart()",
+      "file_type": "code",
+      "source_file": "frontend/src/reporting/Dashboard.tsx",
+      "source_location": "L24",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "frontend_src_reporting_reports",
+      "label": "Reports.tsx",
+      "file_type": "code",
+      "source_file": "frontend/src/reporting/Reports.tsx",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "frontend_src_reporting_reports_reports",
+      "label": "Reports()",
+      "file_type": "code",
+      "source_file": "frontend/src/reporting/Reports.tsx",
+      "source_location": "L7",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "frontend_src_reporting_reports_reports_download",
+      "label": "download()",
+      "file_type": "code",
+      "source_file": "frontend/src/reporting/Reports.tsx",
+      "source_location": "L22",
       "_callable": true,
       "_origin": "ast"
     },
@@ -7852,7 +8626,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "backend/app/applications/repository.py",
-      "source_location": "L53",
+      "source_location": "L57",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7862,7 +8636,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "backend/app/applications/repository.py",
-      "source_location": "L58",
+      "source_location": "L62",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7872,7 +8646,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "backend/app/applications/repository.py",
-      "source_location": "L64",
+      "source_location": "L68",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7947,32 +8721,32 @@
       "_origin": "ast"
     },
     {
-      "source": "backend_app_applications_repository_rationale_54",
+      "source": "backend_app_applications_repository_rationale_58",
       "target": "backend_app_applications_repository_applicationrepository_create",
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "backend/app/applications/repository.py",
-      "source_location": "L54",
+      "source_location": "L58",
       "weight": 1.0,
       "_origin": "ast"
     },
     {
-      "source": "backend_app_applications_repository_rationale_59",
+      "source": "backend_app_applications_repository_rationale_63",
       "target": "backend_app_applications_repository_applicationrepository_update",
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "backend/app/applications/repository.py",
-      "source_location": "L59",
+      "source_location": "L63",
       "weight": 1.0,
       "_origin": "ast"
     },
     {
-      "source": "backend_app_applications_repository_rationale_65",
+      "source": "backend_app_applications_repository_rationale_69",
       "target": "backend_app_applications_repository_applicationrepository_delete",
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "backend/app/applications/repository.py",
-      "source_location": "L65",
+      "source_location": "L69",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -10691,11 +11465,22 @@
     },
     {
       "source": "backend_app_main",
+      "target": "backend_app_reporting_router",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/main.py",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_main",
       "target": "backend_app_main_lifespan",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/app/main.py",
-      "source_location": "L23",
+      "source_location": "L24",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -10706,7 +11491,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/app/main.py",
-      "source_location": "L23",
+      "source_location": "L24",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -10716,7 +11501,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "backend/app/main.py",
-      "source_location": "L51",
+      "source_location": "L53",
       "weight": 1.0,
       "context": "decorator",
       "_origin": "ast"
@@ -10727,7 +11512,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/app/main.py",
-      "source_location": "L52",
+      "source_location": "L54",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -10742,22 +11527,22 @@
       "_origin": "ast"
     },
     {
-      "source": "backend_app_main_rationale_24",
+      "source": "backend_app_main_rationale_25",
       "target": "backend_app_main_lifespan",
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "backend/app/main.py",
-      "source_location": "L24",
+      "source_location": "L25",
       "weight": 1.0,
       "_origin": "ast"
     },
     {
-      "source": "backend_app_main_rationale_53",
+      "source": "backend_app_main_rationale_55",
       "target": "backend_app_main_health",
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "backend/app/main.py",
-      "source_location": "L53",
+      "source_location": "L55",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -12255,6 +13040,1128 @@
       "confidence": "EXTRACTED",
       "source_file": "backend/app/portfolios/service.py",
       "source_location": "L74",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_repository",
+      "target": "backend_app_reporting_repository_reportingrepository",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/repository.py",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_repository_reportingrepository",
+      "target": "backend_app_reporting_repository_reportingrepository_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/repository.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_repository_reportingrepository_init",
+      "target": "backend_app_reporting_repository_py_asyncdatabase",
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/repository.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_repository_reportingrepository",
+      "target": "backend_app_reporting_repository_reportingrepository_estate",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/repository.py",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_repository_rationale_1",
+      "target": "backend_app_reporting_repository",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/repository.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_repository_rationale_7",
+      "target": "backend_app_reporting_repository_reportingrepository",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/repository.py",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_repository_rationale_9",
+      "target": "backend_app_reporting_repository_reportingrepository_init",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/repository.py",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_repository_rationale_13",
+      "target": "backend_app_reporting_repository_reportingrepository_estate",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/repository.py",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router",
+      "target": "fastapi",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router",
+      "target": "backend_app_accounts_router",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router",
+      "target": "backend_app_accounts_service",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router",
+      "target": "backend_app_core_database",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router",
+      "target": "backend_app_reporting_repository",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router",
+      "target": "backend_app_reporting_schemas",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router",
+      "target": "backend_app_reporting_service",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router",
+      "target": "backend_app_reporting_router_get_service",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_get_service",
+      "target": "backend_app_reporting_router_py_asyncdatabase",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_get_service",
+      "target": "backend_app_reporting_router_py_depends",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_get_service",
+      "target": "backend_app_core_database_get_database",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_get_service",
+      "target": "backend_app_accounts_service_accountservice",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_get_service",
+      "target": "backend_app_reporting_router_py_get_accounts",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_get_service",
+      "target": "backend_app_reporting_service_reportingservice",
+      "relation": "references",
+      "context": "return_type",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router",
+      "target": "backend_app_reporting_router_get_filters",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_get_filters",
+      "target": "backend_app_reporting_router_py_query",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_get_filters",
+      "target": "backend_app_reporting_router_py_max_length",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_get_filters",
+      "target": "backend_app_reporting_schemas_filters",
+      "relation": "references",
+      "context": "return_type",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_dashboard",
+      "target": "backend_app_reporting_router_py_get",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "decorator",
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router",
+      "target": "backend_app_reporting_router_dashboard",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_dashboard",
+      "target": "backend_app_reporting_router_py_depends",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_dashboard",
+      "target": "backend_app_accounts_router_current_session",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_dashboard",
+      "target": "backend_app_reporting_service_reportingservice",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_dashboard",
+      "target": "backend_app_reporting_router_get_service",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_dashboard",
+      "target": "backend_app_reporting_schemas_filters",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_dashboard",
+      "target": "backend_app_reporting_router_get_filters",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_report",
+      "target": "backend_app_reporting_router_py_get",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L31",
+      "weight": 1.0,
+      "context": "decorator",
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router",
+      "target": "backend_app_reporting_router_report",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L32",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_report",
+      "target": "backend_app_reporting_router_py_depends",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L32",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_report",
+      "target": "backend_app_accounts_router_current_session",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L32",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_report",
+      "target": "backend_app_reporting_service_reportingservice",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L32",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_report",
+      "target": "backend_app_reporting_router_get_service",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L32",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_report",
+      "target": "backend_app_reporting_schemas_filters",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L32",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_report",
+      "target": "backend_app_reporting_router_get_filters",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L32",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_report",
+      "target": "backend_app_reporting_router_py_query",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L32",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_report",
+      "target": "backend_app_reporting_router_py_ge",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L32",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_report",
+      "target": "backend_app_reporting_router_py_le",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L32",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_report",
+      "target": "backend_app_reporting_schemas_page",
+      "relation": "references",
+      "context": "return_type",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L32",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_export",
+      "target": "backend_app_reporting_router_py_get",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L38",
+      "weight": 1.0,
+      "context": "decorator",
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router",
+      "target": "backend_app_reporting_router_export",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L39",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_export",
+      "target": "backend_app_reporting_router_py_depends",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L39",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_export",
+      "target": "backend_app_accounts_router_current_session",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L39",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_export",
+      "target": "backend_app_reporting_service_reportingservice",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L39",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_export",
+      "target": "backend_app_reporting_router_get_service",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L39",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_export",
+      "target": "backend_app_reporting_schemas_filters",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L39",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_export",
+      "target": "backend_app_reporting_router_get_filters",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L39",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_export",
+      "target": "backend_app_reporting_router_py_response",
+      "relation": "references",
+      "context": "return_type",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L39",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_rationale_1",
+      "target": "backend_app_reporting_router",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_rationale_16",
+      "target": "backend_app_reporting_router_get_service",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_rationale_21",
+      "target": "backend_app_reporting_router_get_filters",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_rationale_27",
+      "target": "backend_app_reporting_router_dashboard",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L27",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_rationale_33",
+      "target": "backend_app_reporting_router_report",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L33",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_rationale_40",
+      "target": "backend_app_reporting_router_export",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L40",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_schemas",
+      "target": "backend_app_reporting_schemas_filters",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/schemas.py",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_schemas_filters",
+      "target": "backend_app_reporting_schemas_py_basemodel",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/schemas.py",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_schemas",
+      "target": "backend_app_reporting_schemas_page",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/schemas.py",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_schemas_page",
+      "target": "backend_app_reporting_schemas_py_basemodel",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/schemas.py",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_schemas_rationale_1",
+      "target": "backend_app_reporting_schemas",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/schemas.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_schemas_rationale_7",
+      "target": "backend_app_reporting_schemas_filters",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/schemas.py",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_schemas_rationale_18",
+      "target": "backend_app_reporting_schemas_page",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/schemas.py",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service",
+      "target": "backend_app_accounts_service",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service",
+      "target": "backend_app_reporting_repository",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service",
+      "target": "backend_app_reporting_schemas",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service",
+      "target": "backend_app_reporting_service_average",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service",
+      "target": "backend_app_reporting_service_reportingservice",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_reportingservice",
+      "target": "backend_app_reporting_service_reportingservice_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_reportingservice_init",
+      "target": "backend_app_reporting_repository_reportingrepository",
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_reportingservice_init",
+      "target": "backend_app_accounts_service_accountservice",
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_reportingservice",
+      "target": "backend_app_reporting_service_reportingservice_source",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_reportingservice_source",
+      "target": "backend_app_reporting_schemas_filters",
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_reportingservice",
+      "target": "backend_app_reporting_service_reportingservice_filter_rows",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L47",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_reportingservice_filter_rows",
+      "target": "backend_app_reporting_schemas_filters",
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L47",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_reportingservice",
+      "target": "backend_app_reporting_service_reportingservice_portfolio_rows",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L59",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_reportingservice",
+      "target": "backend_app_reporting_service_reportingservice_dashboard",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L68",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_reportingservice_dashboard",
+      "target": "backend_app_reporting_schemas_filters",
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L68",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_reportingservice",
+      "target": "backend_app_reporting_service_reportingservice_report",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L78",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_reportingservice_report",
+      "target": "backend_app_reporting_schemas_filters",
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L78",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_reportingservice",
+      "target": "backend_app_reporting_service_reportingservice_export",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L85",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_reportingservice_export",
+      "target": "backend_app_reporting_schemas_filters",
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L85",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_reportingservice_portfolio_rows",
+      "target": "backend_app_reporting_service_average",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L65",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_reportingservice_dashboard",
+      "target": "backend_app_reporting_service_reportingservice_source",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L70",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_reportingservice_dashboard",
+      "target": "backend_app_reporting_service_reportingservice_filter_rows",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L71",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_reportingservice_dashboard",
+      "target": "backend_app_reporting_service_reportingservice_portfolio_rows",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L73",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_reportingservice_dashboard",
+      "target": "backend_app_reporting_service_average",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L76",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_reportingservice_report",
+      "target": "backend_app_reporting_service_reportingservice_source",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L80",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_reportingservice_report",
+      "target": "backend_app_reporting_service_reportingservice_portfolio_rows",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L82",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_reportingservice_report",
+      "target": "backend_app_reporting_service_reportingservice_filter_rows",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L83",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_reportingservice_export",
+      "target": "backend_app_reporting_service_reportingservice_report",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L87",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_rationale_1",
+      "target": "backend_app_reporting_service",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_rationale_15",
+      "target": "backend_app_reporting_service_average",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_rationale_21",
+      "target": "backend_app_reporting_service_reportingservice",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_rationale_23",
+      "target": "backend_app_reporting_service_reportingservice_init",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L23",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_rationale_27",
+      "target": "backend_app_reporting_service_reportingservice_source",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L27",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_rationale_48",
+      "target": "backend_app_reporting_service_reportingservice_filter_rows",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L48",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_rationale_60",
+      "target": "backend_app_reporting_service_reportingservice_portfolio_rows",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L60",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_rationale_69",
+      "target": "backend_app_reporting_service_reportingservice_dashboard",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L69",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_rationale_79",
+      "target": "backend_app_reporting_service_reportingservice_report",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L79",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_rationale_86",
+      "target": "backend_app_reporting_service_reportingservice_export",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L86",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -14690,6 +16597,269 @@
       "_origin": "ast"
     },
     {
+      "source": "backend_tests_test_reporting",
+      "target": "backend_app_accounts_repository",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_tests_test_reporting",
+      "target": "backend_app_accounts_service",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_tests_test_reporting",
+      "target": "backend_app_core_config",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_tests_test_reporting",
+      "target": "backend_app_main",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_tests_test_reporting_env",
+      "target": "backend_tests_test_reporting_py_fixture",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "decorator",
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_tests_test_reporting",
+      "target": "backend_tests_test_reporting_env",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_tests_test_reporting",
+      "target": "backend_tests_test_reporting_add_portfolio",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L44",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_tests_test_reporting",
+      "target": "backend_tests_test_reporting_add_app",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L49",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_tests_test_reporting",
+      "target": "backend_tests_test_reporting_add_review",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L55",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_tests_test_reporting",
+      "target": "backend_tests_test_reporting_test_dashboard_latest_filters_lifecycle_and_empty",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L60",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_tests_test_reporting",
+      "target": "backend_tests_test_reporting_test_reports_export_scope_and_csv_injection",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L91",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_tests_test_reporting",
+      "target": "backend_tests_test_reporting_test_empty_report_and_filtered_export",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L120",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_tests_test_reporting_test_dashboard_latest_filters_lifecycle_and_empty",
+      "target": "backend_tests_test_reporting_add_portfolio",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L62",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_tests_test_reporting_test_dashboard_latest_filters_lifecycle_and_empty",
+      "target": "backend_tests_test_reporting_add_app",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L65",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_tests_test_reporting_test_dashboard_latest_filters_lifecycle_and_empty",
+      "target": "backend_tests_test_reporting_add_review",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L70",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_tests_test_reporting_test_reports_export_scope_and_csv_injection",
+      "target": "backend_tests_test_reporting_add_portfolio",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L93",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_tests_test_reporting_test_reports_export_scope_and_csv_injection",
+      "target": "backend_tests_test_reporting_add_app",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L95",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_tests_test_reporting_test_empty_report_and_filtered_export",
+      "target": "backend_tests_test_reporting_add_portfolio",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L125",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_tests_test_reporting_test_empty_report_and_filtered_export",
+      "target": "backend_tests_test_reporting_add_app",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L126",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_tests_test_reporting_test_empty_report_and_filtered_export",
+      "target": "backend_tests_test_reporting_add_review",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L128",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_tests_test_reporting_rationale_1",
+      "target": "backend_tests_test_reporting",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_tests_test_reporting_rationale_22",
+      "target": "backend_tests_test_reporting_env",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_tests_test_reporting_rationale_45",
+      "target": "backend_tests_test_reporting_add_portfolio",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L45",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_tests_test_reporting_rationale_50",
+      "target": "backend_tests_test_reporting_add_app",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L50",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_tests_test_reporting_rationale_56",
+      "target": "backend_tests_test_reporting_add_review",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L56",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
       "source": "backend_tests_test_reviews",
       "target": "backend_app_accounts_repository",
       "relation": "imports_from",
@@ -14971,6 +17141,17 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "frontend/e2e/portfolios.spec.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_e2e_reporting_spec",
+      "target": "ref_playwright_test",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/e2e/reporting.spec.ts",
       "source_location": "L1",
       "weight": 1.0,
       "_origin": "ast"
@@ -15979,11 +18160,33 @@
     },
     {
       "source": "frontend_src_app",
+      "target": "frontend_src_reporting_dashboard",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/App.tsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_app",
+      "target": "frontend_src_reporting_reports",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/App.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_app",
       "target": "frontend_src_app_shell",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/App.tsx",
-      "source_location": "L15",
+      "source_location": "L17",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -15993,7 +18196,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/App.tsx",
-      "source_location": "L24",
+      "source_location": "L26",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -16003,7 +18206,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/App.tsx",
-      "source_location": "L25",
+      "source_location": "L27",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -16013,7 +18216,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/App.tsx",
-      "source_location": "L44",
+      "source_location": "L46",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -16023,7 +18226,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/App.tsx",
-      "source_location": "L74",
+      "source_location": "L78",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -16034,7 +18237,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/App.tsx",
-      "source_location": "L39",
+      "source_location": "L41",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -16045,7 +18248,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/App.tsx",
-      "source_location": "L59",
+      "source_location": "L61",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -16056,7 +18259,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/App.tsx",
-      "source_location": "L45",
+      "source_location": "L47",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -16067,7 +18270,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/App.tsx",
-      "source_location": "L74",
+      "source_location": "L78",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -16938,11 +19141,33 @@
     },
     {
       "source": "frontend_src_applications_applications",
+      "target": "frontend_src_reporting_api",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/applications/Applications.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_applications_applications",
+      "target": "frontend_src_reporting_api_reportingapi",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/applications/Applications.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_applications_applications",
       "target": "frontend_src_applications_applications_props",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/applications/Applications.tsx",
-      "source_location": "L9",
+      "source_location": "L10",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -16952,7 +19177,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/applications/Applications.tsx",
-      "source_location": "L12",
+      "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -16962,7 +19187,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/applications/Applications.tsx",
-      "source_location": "L24",
+      "source_location": "L25",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -16972,7 +19197,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/applications/Applications.tsx",
-      "source_location": "L43",
+      "source_location": "L44",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -16982,7 +19207,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/applications/Applications.tsx",
-      "source_location": "L54",
+      "source_location": "L55",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -16993,7 +19218,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/applications/Applications.tsx",
-      "source_location": "L51",
+      "source_location": "L52",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -17004,7 +19229,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/applications/Applications.tsx",
-      "source_location": "L67",
+      "source_location": "L68",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -18029,11 +20254,33 @@
     },
     {
       "source": "frontend_src_portfolios_portfolios_test",
+      "target": "frontend_src_reporting_api",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/portfolios/Portfolios.test.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_portfolios_portfolios_test",
+      "target": "frontend_src_reporting_api_reportingapi",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/portfolios/Portfolios.test.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_portfolios_portfolios_test",
       "target": "frontend_src_portfolios_portfolios_test_account",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/portfolios/Portfolios.test.tsx",
-      "source_location": "L10",
+      "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -18043,7 +20290,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/portfolios/Portfolios.test.tsx",
-      "source_location": "L11",
+      "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -18182,11 +20429,77 @@
     },
     {
       "source": "frontend_src_portfolios_portfolios",
+      "target": "frontend_src_reviews_api",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/portfolios/Portfolios.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_portfolios_portfolios",
+      "target": "frontend_src_reviews_api_reviewsapi",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/portfolios/Portfolios.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_portfolios_portfolios",
+      "target": "frontend_src_reviews_api_review",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/portfolios/Portfolios.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_portfolios_portfolios",
+      "target": "frontend_src_reporting_api",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/portfolios/Portfolios.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_portfolios_portfolios",
+      "target": "frontend_src_reporting_api_reportingapi",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/portfolios/Portfolios.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_portfolios_portfolios",
+      "target": "frontend_src_reporting_api_reportrow",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/portfolios/Portfolios.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_portfolios_portfolios",
       "target": "frontend_src_portfolios_portfolios_props",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/portfolios/Portfolios.tsx",
-      "source_location": "L7",
+      "source_location": "L9",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -18196,13 +20509,13 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/portfolios/Portfolios.tsx",
-      "source_location": "L10",
+      "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast"
     },
     {
       "source": "frontend_src_portfolios_portfolios_portfolios",
-      "target": "frontend_src_portfolios_portfolios_portfolios_save",
+      "target": "frontend_src_portfolios_portfolios_portfolios_load",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/portfolios/Portfolios.tsx",
@@ -18212,11 +20525,32 @@
     },
     {
       "source": "frontend_src_portfolios_portfolios_portfolios",
+      "target": "frontend_src_portfolios_portfolios_portfolios_save",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/portfolios/Portfolios.tsx",
+      "source_location": "L59",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_portfolios_portfolios_portfolios",
       "target": "frontend_src_portfolios_portfolios_portfolios_confirm",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/portfolios/Portfolios.tsx",
-      "source_location": "L49",
+      "source_location": "L63",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_portfolios_portfolios_portfolios",
+      "target": "frontend_src_portfolios_portfolios_portfolios_load",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/portfolios/Portfolios.tsx",
+      "source_location": "L50",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -18227,7 +20561,498 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/portfolios/Portfolios.tsx",
-      "source_location": "L94",
+      "source_location": "L108",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_api",
+      "target": "frontend_src_accounts_api",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/api.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_api",
+      "target": "frontend_src_accounts_api_apierror",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/api.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_api",
+      "target": "frontend_src_reporting_api_portfoliorow",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/api.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_api",
+      "target": "frontend_src_reporting_api_dashboarddata",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/api.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_api",
+      "target": "frontend_src_reporting_api_reportrow",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/api.ts",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_api",
+      "target": "frontend_src_reporting_api_reportpage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/api.ts",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_api",
+      "target": "frontend_src_reporting_api_request",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/api.ts",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_api",
+      "target": "frontend_src_reporting_api_reportingapi",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/api.ts",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_api",
+      "target": "frontend_src_reporting_api_applicationcolumns",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/api.ts",
+      "source_location": "L36",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_api",
+      "target": "frontend_src_reporting_api_portfoliocolumns",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/api.ts",
+      "source_location": "L37",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_dashboard_test",
+      "target": "ref_testing_library_jest_dom",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Dashboard.test.tsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_dashboard_test",
+      "target": "ref_vitest",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Dashboard.test.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_dashboard_test",
+      "target": "ref_testing_library_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Dashboard.test.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_dashboard_test",
+      "target": "ref_testing_library_user_event",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Dashboard.test.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_dashboard_test",
+      "target": "ref_react_router_dom",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Dashboard.test.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_dashboard_test",
+      "target": "frontend_src_reporting_dashboard",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Dashboard.test.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_dashboard_test",
+      "target": "frontend_src_reporting_reports",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Dashboard.test.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_dashboard_test",
+      "target": "frontend_src_reporting_api",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Dashboard.test.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_dashboard_test",
+      "target": "frontend_src_reporting_api_reportingapi",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Dashboard.test.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_dashboard_test",
+      "target": "frontend_src_reporting_dashboard_test_account",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Dashboard.test.tsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_dashboard_test",
+      "target": "frontend_src_reporting_api",
+      "relation": "dynamic_import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Dashboard.test.tsx",
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_dashboard",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Dashboard.tsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_dashboard",
+      "target": "ref_react_router_dom",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Dashboard.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_dashboard",
+      "target": "frontend_src_accounts_api",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Dashboard.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "type_only": true,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_dashboard",
+      "target": "frontend_src_accounts_api_account",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Dashboard.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_dashboard",
+      "target": "frontend_src_reporting_api",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Dashboard.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_dashboard",
+      "target": "frontend_src_reporting_api_reportingapi",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Dashboard.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_dashboard",
+      "target": "frontend_src_reporting_api_dashboarddata",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Dashboard.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_dashboard",
+      "target": "frontend_src_reporting_api_portfoliorow",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Dashboard.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_dashboard",
+      "target": "frontend_src_reporting_dashboard_dashboard",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Dashboard.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_dashboard_dashboard",
+      "target": "frontend_src_reporting_dashboard_dashboard_change",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Dashboard.tsx",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_dashboard_dashboard",
+      "target": "frontend_src_reporting_dashboard_dashboard_chart",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Dashboard.tsx",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_dashboard_dashboard",
+      "target": "frontend_src_reporting_dashboard_dashboard_change",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Dashboard.tsx",
+      "source_location": "L31",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_dashboard_dashboard",
+      "target": "frontend_src_reporting_dashboard_dashboard_chart",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Dashboard.tsx",
+      "source_location": "L40",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_reports",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Reports.tsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_reports",
+      "target": "ref_react_router_dom",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Reports.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_reports",
+      "target": "frontend_src_accounts_api",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Reports.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "type_only": true,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_reports",
+      "target": "frontend_src_accounts_api_account",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Reports.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_reports",
+      "target": "frontend_src_reporting_api",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Reports.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_reports",
+      "target": "frontend_src_reporting_api_applicationcolumns",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Reports.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_reports",
+      "target": "frontend_src_reporting_api_portfoliocolumns",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Reports.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_reports",
+      "target": "frontend_src_reporting_api_reportingapi",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Reports.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_reports",
+      "target": "frontend_src_reporting_api_reportpage",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Reports.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_reports",
+      "target": "frontend_src_reporting_reports_reports",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Reports.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_reports_reports",
+      "target": "frontend_src_reporting_reports_reports_download",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Reports.tsx",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_reports_reports",
+      "target": "frontend_src_reporting_reports_reports_download",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Reports.tsx",
+      "source_location": "L35",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -18960,6 +21785,28 @@
       "_origin": "ast"
     },
     {
+      "source": "frontend_src_app",
+      "target": "frontend_src_reporting_dashboard_dashboard",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/App.tsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_app",
+      "target": "frontend_src_reporting_reports_reports",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/App.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
       "source": "frontend_src_applications_applicationrecord",
       "target": "frontend_src_applications_applicationform_applicationform",
       "relation": "imports",
@@ -19077,6 +21924,28 @@
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/portfolios/Portfolios.tsx",
       "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_dashboard_test",
+      "target": "frontend_src_reporting_dashboard_dashboard",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Dashboard.test.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_dashboard_test",
+      "target": "frontend_src_reporting_reports_reports",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/reporting/Dashboard.test.tsx",
+      "source_location": "L7",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -19851,6 +22720,127 @@
       "_origin": "ast"
     },
     {
+      "source": "backend_app_reporting_router",
+      "target": "backend_app_accounts_router_current_session",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router",
+      "target": "backend_app_accounts_router_get_service",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router",
+      "target": "backend_app_accounts_service_accountservice",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router",
+      "target": "backend_app_core_database_get_database",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router",
+      "target": "backend_app_reporting_repository_reportingrepository",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router",
+      "target": "backend_app_reporting_schemas_filters",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router",
+      "target": "backend_app_reporting_schemas_page",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router",
+      "target": "backend_app_reporting_service_reportingservice",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service",
+      "target": "backend_app_accounts_service_accountservice",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service",
+      "target": "backend_app_reporting_repository_reportingrepository",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service",
+      "target": "backend_app_reporting_schemas_filters",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
       "source": "backend_app_reviews_router",
       "target": "backend_app_accounts_router_current_session",
       "relation": "imports",
@@ -20181,6 +23171,28 @@
       "_origin": "ast"
     },
     {
+      "source": "backend_tests_test_reporting",
+      "target": "backend_app_accounts_repository_accountrepository",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_tests_test_reporting",
+      "target": "backend_app_accounts_service_accountservice",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
       "source": "backend_tests_test_reviews",
       "target": "backend_app_accounts_repository_accountrepository",
       "relation": "imports",
@@ -20308,7 +23320,7 @@
       "context": "field",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/applications/Applications.tsx",
-      "source_location": "L9",
+      "source_location": "L10",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -20385,7 +23397,7 @@
       "context": "field",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/portfolios/Portfolios.tsx",
-      "source_location": "L7",
+      "source_location": "L9",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -20518,6 +23530,39 @@
       "confidence": "EXTRACTED",
       "source_file": "backend/app/portfolios/router.py",
       "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_get_service",
+      "target": "backend_app_reporting_service_reportingservice",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_get_service",
+      "target": "backend_app_reporting_repository_reportingrepository",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_get_filters",
+      "target": "backend_app_reporting_schemas_filters",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L22",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -21243,7 +24288,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.95,
       "source_file": "backend/app/main.py",
-      "source_location": "L29",
+      "source_location": "L30",
       "weight": 0.8,
       "_origin": "ast"
     },
@@ -21254,7 +24299,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.95,
       "source_file": "backend/app/main.py",
-      "source_location": "L32",
+      "source_location": "L33",
       "weight": 0.8,
       "_origin": "ast"
     },
@@ -21265,7 +24310,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.95,
       "source_file": "backend/app/main.py",
-      "source_location": "L34",
+      "source_location": "L35",
       "weight": 0.8,
       "_origin": "ast"
     },
@@ -21276,7 +24321,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.95,
       "source_file": "backend/app/main.py",
-      "source_location": "L31",
+      "source_location": "L32",
       "weight": 0.8,
       "_origin": "ast"
     },
@@ -21287,7 +24332,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.95,
       "source_file": "backend/app/main.py",
-      "source_location": "L33",
+      "source_location": "L34",
       "weight": 0.8,
       "_origin": "ast"
     },
@@ -21519,6 +24564,160 @@
       "confidence_score": 0.95,
       "source_file": "backend/app/portfolios/service.py",
       "source_location": "L17",
+      "weight": 0.8,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_get_service",
+      "target": "backend_app_accounts_service_accountservice",
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L15",
+      "weight": 0.8,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_get_service",
+      "target": "backend_app_reporting_repository_reportingrepository",
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L17",
+      "weight": 0.8,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_get_filters",
+      "target": "backend_app_reporting_schemas_filters",
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L20",
+      "weight": 0.8,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_dashboard",
+      "target": "backend_app_reporting_schemas_filters",
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L26",
+      "weight": 0.8,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_report",
+      "target": "backend_app_reporting_schemas_filters",
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L32",
+      "weight": 0.8,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_export",
+      "target": "backend_app_reporting_schemas_filters",
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L39",
+      "weight": 0.8,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_report",
+      "target": "backend_app_reporting_schemas_page",
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L32",
+      "weight": 0.8,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_get_service",
+      "target": "backend_app_reporting_service_reportingservice",
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L15",
+      "weight": 0.8,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_dashboard",
+      "target": "backend_app_reporting_service_reportingservice",
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L26",
+      "weight": 0.8,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_report",
+      "target": "backend_app_reporting_service_reportingservice",
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L32",
+      "weight": 0.8,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_router_export",
+      "target": "backend_app_reporting_service_reportingservice",
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "backend/app/reporting/router.py",
+      "source_location": "L39",
+      "weight": 0.8,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_reportingservice",
+      "target": "backend_app_accounts_service_accountservice",
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L22",
+      "weight": 0.8,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_reportingservice",
+      "target": "backend_app_reporting_repository_reportingrepository",
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L22",
+      "weight": 0.8,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_app_reporting_service_reportingservice",
+      "target": "backend_app_reporting_schemas_filters",
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "backend/app/reporting/service.py",
+      "source_location": "L26",
       "weight": 0.8,
       "_origin": "ast"
     },
@@ -21875,6 +25074,28 @@
       "_origin": "ast"
     },
     {
+      "source": "backend_tests_test_reporting_env",
+      "target": "backend_app_accounts_repository_accountrepository",
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L28",
+      "weight": 0.8,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_tests_test_reporting_env",
+      "target": "backend_app_accounts_service_accountservice",
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "backend/tests/test_reporting.py",
+      "source_location": "L34",
+      "weight": 0.8,
+      "_origin": "ast"
+    },
+    {
       "source": "backend_tests_test_reviews_env",
       "target": "backend_app_accounts_repository_accountrepository",
       "relation": "uses",
@@ -21987,7 +25208,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "backend/app/main.py",
-      "source_location": "L36",
+      "source_location": "L37",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -22035,7 +25256,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/App.tsx",
-      "source_location": "L51",
+      "source_location": "L53",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -22047,37 +25268,13 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/App.tsx",
-      "source_location": "L52",
+      "source_location": "L54",
       "weight": 1.0,
       "_origin": "ast"
     },
     {
       "source": "frontend_src_app_shell",
-      "target": "frontend_src_portfolios_portfolios_portfolios",
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "frontend/src/App.tsx",
-      "source_location": "L61",
-      "weight": 1.0,
-      "_origin": "ast"
-    },
-    {
-      "source": "frontend_src_app_shell",
-      "target": "frontend_src_applications_applications_applications",
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "frontend/src/App.tsx",
-      "source_location": "L62",
-      "weight": 1.0,
-      "_origin": "ast"
-    },
-    {
-      "source": "frontend_src_app_shell",
-      "target": "frontend_src_applications_applicationrecord_applicationrecord",
+      "target": "frontend_src_reporting_dashboard_dashboard",
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
@@ -22089,7 +25286,7 @@
     },
     {
       "source": "frontend_src_app_shell",
-      "target": "frontend_src_reviews_reviewsdue_reviewsdue",
+      "target": "frontend_src_reporting_reports_reports",
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
@@ -22101,13 +25298,61 @@
     },
     {
       "source": "frontend_src_app_shell",
-      "target": "frontend_src_dependencies_dependencies_dependencies",
+      "target": "frontend_src_portfolios_portfolios_portfolios",
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/App.tsx",
       "source_location": "L65",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_app_shell",
+      "target": "frontend_src_applications_applications_applications",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/App.tsx",
+      "source_location": "L66",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_app_shell",
+      "target": "frontend_src_applications_applicationrecord_applicationrecord",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/App.tsx",
+      "source_location": "L67",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_app_shell",
+      "target": "frontend_src_reviews_reviewsdue_reviewsdue",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/App.tsx",
+      "source_location": "L68",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_app_shell",
+      "target": "frontend_src_dependencies_dependencies_dependencies",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/App.tsx",
+      "source_location": "L69",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -22179,7 +25424,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/applications/Applications.tsx",
-      "source_location": "L82",
+      "source_location": "L84",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -22239,7 +25484,19 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/portfolios/Portfolios.tsx",
-      "source_location": "L93",
+      "source_location": "L107",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_src_reporting_api_request",
+      "target": "frontend_src_accounts_api_apierror",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/src/reporting/api.ts",
+      "source_location": "L20",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -22287,7 +25544,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.85,
       "source_file": "backend/app/main.py",
-      "source_location": "L30",
+      "source_location": "L31",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -22299,7 +25556,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.85,
       "source_file": "backend/app/main.py",
-      "source_location": "L36",
+      "source_location": "L37",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -22833,8 +26090,8 @@
       "source_location": "L57",
       "weight": 1.0,
       "_origin": "ast",
-      "_src": "backend_app_reviews_router_assign",
-      "_tgt": "backend_app_accounts_router_current_session"
+      "_src": "backend_app_accounts_router_current_session",
+      "_tgt": "backend_app_reviews_router_assign"
     },
     {
       "source": "backend_app_accounts_router_current_session",
@@ -22846,8 +26103,8 @@
       "source_location": "L23",
       "weight": 1.0,
       "_origin": "ast",
-      "_src": "backend_app_reviews_router_due",
-      "_tgt": "backend_app_accounts_router_current_session"
+      "_src": "backend_app_accounts_router_current_session",
+      "_tgt": "backend_app_reviews_router_due"
     },
     {
       "source": "backend_app_accounts_router_current_session",
@@ -22859,8 +26116,8 @@
       "source_location": "L51",
       "weight": 1.0,
       "_origin": "ast",
-      "_src": "backend_app_reviews_router_eligible",
-      "_tgt": "backend_app_accounts_router_current_session"
+      "_src": "backend_app_accounts_router_current_session",
+      "_tgt": "backend_app_reviews_router_eligible"
     },
     {
       "source": "backend_app_accounts_router_current_session",
@@ -22872,8 +26129,8 @@
       "source_location": "L39",
       "weight": 1.0,
       "_origin": "ast",
-      "_src": "backend_app_reviews_router_history",
-      "_tgt": "backend_app_accounts_router_current_session"
+      "_src": "backend_app_accounts_router_current_session",
+      "_tgt": "backend_app_reviews_router_history"
     },
     {
       "source": "backend_app_accounts_router_current_session",
@@ -22885,8 +26142,8 @@
       "source_location": "L29",
       "weight": 1.0,
       "_origin": "ast",
-      "_src": "backend_app_reviews_router_interval",
-      "_tgt": "backend_app_accounts_router_current_session"
+      "_src": "backend_app_accounts_router_current_session",
+      "_tgt": "backend_app_reviews_router_interval"
     },
     {
       "source": "backend_app_accounts_router_current_session",
@@ -22898,7 +26155,46 @@
       "source_location": "L45",
       "weight": 1.0,
       "_origin": "ast",
-      "_src": "backend_app_reviews_router_record",
+      "_src": "backend_app_accounts_router_current_session",
+      "_tgt": "backend_app_reviews_router_record"
+    },
+    {
+      "source": "backend_app_accounts_router_current_session",
+      "target": "backend_app_dependencies_router_create_link",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/dependencies/router.py",
+      "source_location": "L29",
+      "weight": 1.0,
+      "_origin": "ast",
+      "_src": "backend_app_dependencies_router_create_link",
+      "_tgt": "backend_app_accounts_router_current_session"
+    },
+    {
+      "source": "backend_app_accounts_router_current_session",
+      "target": "backend_app_dependencies_router_list_links",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/dependencies/router.py",
+      "source_location": "L23",
+      "weight": 1.0,
+      "_origin": "ast",
+      "_src": "backend_app_dependencies_router_list_links",
+      "_tgt": "backend_app_accounts_router_current_session"
+    },
+    {
+      "source": "backend_app_accounts_router_current_session",
+      "target": "backend_app_dependencies_router_remove_link",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/dependencies/router.py",
+      "source_location": "L35",
+      "weight": 1.0,
+      "_origin": "ast",
+      "_src": "backend_app_dependencies_router_remove_link",
       "_tgt": "backend_app_accounts_router_current_session"
     },
     {
@@ -23165,7 +26461,20 @@
       "source_location": "L18",
       "weight": 1.0,
       "_origin": "ast",
-      "_src": "backend_app_reviews_service_reviewservice_init",
+      "_src": "backend_app_accounts_service_accountservice",
+      "_tgt": "backend_app_reviews_service_reviewservice_init"
+    },
+    {
+      "source": "backend_app_accounts_service_accountservice",
+      "target": "backend_app_dependencies_service_dependencyservice_init",
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/dependencies/service.py",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_origin": "ast",
+      "_src": "backend_app_dependencies_service_dependencyservice_init",
       "_tgt": "backend_app_accounts_service_accountservice"
     },
     {
@@ -23516,7 +26825,20 @@
       "source_location": "L18",
       "weight": 1.0,
       "_origin": "ast",
-      "_src": "backend_app_reviews_service_reviewservice_init",
+      "_src": "backend_app_applications_service_applicationservice",
+      "_tgt": "backend_app_reviews_service_reviewservice_init"
+    },
+    {
+      "source": "backend_app_applications_service_applicationservice",
+      "target": "backend_app_dependencies_service_dependencyservice_init",
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/dependencies/service.py",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_origin": "ast",
+      "_src": "backend_app_dependencies_service_dependencyservice_init",
       "_tgt": "backend_app_applications_service_applicationservice"
     },
     {
@@ -23542,8 +26864,164 @@
       "source_location": "L17",
       "weight": 1.0,
       "_origin": "ast",
-      "_src": "backend_app_reviews_router_get_service",
+      "_src": "backend_app_core_database_get_database",
+      "_tgt": "backend_app_reviews_router_get_service"
+    },
+    {
+      "source": "backend_app_core_database_get_database",
+      "target": "backend_app_dependencies_router_get_service",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/dependencies/router.py",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast",
+      "_src": "backend_app_dependencies_router_get_service",
       "_tgt": "backend_app_core_database_get_database"
+    },
+    {
+      "source": "backend_app_dependencies_repository_dependencyrepository",
+      "target": "backend_app_dependencies_service_dependencyservice_init",
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/dependencies/service.py",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_origin": "ast",
+      "_src": "backend_app_dependencies_service_dependencyservice_init",
+      "_tgt": "backend_app_dependencies_repository_dependencyrepository"
+    },
+    {
+      "source": "backend_app_dependencies_router_get_service",
+      "target": "backend_app_dependencies_router_create_link",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/dependencies/router.py",
+      "source_location": "L29",
+      "weight": 1.0,
+      "_origin": "ast",
+      "_src": "backend_app_dependencies_router_create_link",
+      "_tgt": "backend_app_dependencies_router_get_service"
+    },
+    {
+      "source": "backend_app_dependencies_router_get_service",
+      "target": "backend_app_dependencies_router_list_links",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/dependencies/router.py",
+      "source_location": "L23",
+      "weight": 1.0,
+      "_origin": "ast",
+      "_src": "backend_app_dependencies_router_list_links",
+      "_tgt": "backend_app_dependencies_router_get_service"
+    },
+    {
+      "source": "backend_app_dependencies_router_get_service",
+      "target": "backend_app_dependencies_router_remove_link",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/dependencies/router.py",
+      "source_location": "L35",
+      "weight": 1.0,
+      "_origin": "ast",
+      "_src": "backend_app_dependencies_router_remove_link",
+      "_tgt": "backend_app_dependencies_router_get_service"
+    },
+    {
+      "source": "backend_app_dependencies_router_py_depends",
+      "target": "backend_app_dependencies_router_create_link",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/dependencies/router.py",
+      "source_location": "L29",
+      "weight": 1.0,
+      "_origin": "ast",
+      "_src": "backend_app_dependencies_router_create_link",
+      "_tgt": "backend_app_dependencies_router_py_depends"
+    },
+    {
+      "source": "backend_app_dependencies_router_py_depends",
+      "target": "backend_app_dependencies_router_list_links",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/dependencies/router.py",
+      "source_location": "L23",
+      "weight": 1.0,
+      "_origin": "ast",
+      "_src": "backend_app_dependencies_router_list_links",
+      "_tgt": "backend_app_dependencies_router_py_depends"
+    },
+    {
+      "source": "backend_app_dependencies_router_py_depends",
+      "target": "backend_app_dependencies_router_remove_link",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/dependencies/router.py",
+      "source_location": "L35",
+      "weight": 1.0,
+      "_origin": "ast",
+      "_src": "backend_app_dependencies_router_remove_link",
+      "_tgt": "backend_app_dependencies_router_py_depends"
+    },
+    {
+      "source": "backend_app_dependencies_router_py_get",
+      "target": "backend_app_dependencies_router_list_links",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/dependencies/router.py",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "decorator",
+      "_origin": "ast",
+      "_src": "backend_app_dependencies_router_list_links",
+      "_tgt": "backend_app_dependencies_router_py_get"
+    },
+    {
+      "source": "backend_app_dependencies_router_py_post",
+      "target": "backend_app_dependencies_router_create_link",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/dependencies/router.py",
+      "source_location": "L28",
+      "weight": 1.0,
+      "context": "decorator",
+      "_origin": "ast",
+      "_src": "backend_app_dependencies_router_create_link",
+      "_tgt": "backend_app_dependencies_router_py_post"
+    },
+    {
+      "source": "backend_app_dependencies_router_py_delete",
+      "target": "backend_app_dependencies_router_remove_link",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/dependencies/router.py",
+      "source_location": "L34",
+      "weight": 1.0,
+      "context": "decorator",
+      "_origin": "ast",
+      "_src": "backend_app_dependencies_router_remove_link",
+      "_tgt": "backend_app_dependencies_router_py_delete"
+    },
+    {
+      "source": "backend_app_dependencies_schemas_dependencyinput",
+      "target": "backend_app_dependencies_service_dependencyservice_create",
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/app/dependencies/service.py",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast",
+      "_src": "backend_app_dependencies_service_dependencyservice_create",
+      "_tgt": "backend_app_dependencies_schemas_dependencyinput"
     },
     {
       "source": "backend_app_main_py_get",
@@ -23551,7 +27029,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "backend/app/main.py",
-      "source_location": "L47",
+      "source_location": "L51",
       "weight": 1.0,
       "context": "decorator",
       "_origin": "ast",
@@ -23906,8 +27384,8 @@
       "source_location": "L18",
       "weight": 1.0,
       "_origin": "ast",
-      "_src": "backend_app_reviews_service_reviewservice_init",
-      "_tgt": "backend_app_reviews_repository_reviewrepository"
+      "_src": "backend_app_reviews_repository_reviewrepository",
+      "_tgt": "backend_app_reviews_service_reviewservice_init"
     },
     {
       "source": "backend_app_reviews_router_get_service",
@@ -23958,8 +27436,8 @@
       "source_location": "L39",
       "weight": 1.0,
       "_origin": "ast",
-      "_src": "backend_app_reviews_router_history",
-      "_tgt": "backend_app_reviews_router_get_service"
+      "_src": "backend_app_reviews_router_get_service",
+      "_tgt": "backend_app_reviews_router_history"
     },
     {
       "source": "backend_app_reviews_router_get_service",
@@ -23971,8 +27449,8 @@
       "source_location": "L29",
       "weight": 1.0,
       "_origin": "ast",
-      "_src": "backend_app_reviews_router_interval",
-      "_tgt": "backend_app_reviews_router_get_service"
+      "_src": "backend_app_reviews_router_get_service",
+      "_tgt": "backend_app_reviews_router_interval"
     },
     {
       "source": "backend_app_reviews_router_get_service",
@@ -23984,8 +27462,8 @@
       "source_location": "L45",
       "weight": 1.0,
       "_origin": "ast",
-      "_src": "backend_app_reviews_router_record",
-      "_tgt": "backend_app_reviews_router_get_service"
+      "_src": "backend_app_reviews_router_get_service",
+      "_tgt": "backend_app_reviews_router_record"
     },
     {
       "source": "backend_app_reviews_router_py_depends",
@@ -24062,8 +27540,8 @@
       "source_location": "L45",
       "weight": 1.0,
       "_origin": "ast",
-      "_src": "backend_app_reviews_router_record",
-      "_tgt": "backend_app_reviews_router_py_depends"
+      "_src": "backend_app_reviews_router_py_depends",
+      "_tgt": "backend_app_reviews_router_record"
     },
     {
       "source": "backend_app_reviews_router_py_get",
@@ -24179,8 +27657,8 @@
       "weight": 1.0,
       "context": "decorator",
       "_origin": "ast",
-      "_src": "backend_app_reviews_router_record",
-      "_tgt": "backend_app_reviews_router_py_post"
+      "_src": "backend_app_reviews_router_py_post",
+      "_tgt": "backend_app_reviews_router_record"
     },
     {
       "source": "backend_app_reviews_schemas_reviewinput",
@@ -24192,8 +27670,8 @@
       "source_location": "L22",
       "weight": 1.0,
       "_origin": "ast",
-      "_src": "backend_app_reviews_service_reviewservice_record",
-      "_tgt": "backend_app_reviews_schemas_reviewinput"
+      "_src": "backend_app_reviews_schemas_reviewinput",
+      "_tgt": "backend_app_reviews_service_reviewservice_record"
     },
     {
       "source": "backend_app_reviews_schemas_py_field_validator",
@@ -24205,8 +27683,8 @@
       "weight": 1.0,
       "context": "decorator",
       "_origin": "ast",
-      "_src": "backend_app_reviews_schemas_reviewinput_not_future",
-      "_tgt": "backend_app_reviews_schemas_py_field_validator"
+      "_src": "backend_app_reviews_schemas_py_field_validator",
+      "_tgt": "backend_app_reviews_schemas_reviewinput_not_future"
     },
     {
       "source": "backend_app_reviews_schemas_py_model_validator",
@@ -24218,8 +27696,8 @@
       "weight": 1.0,
       "context": "decorator",
       "_origin": "ast",
-      "_src": "backend_app_reviews_schemas_reviewinput_valid_defects",
-      "_tgt": "backend_app_reviews_schemas_py_model_validator"
+      "_src": "backend_app_reviews_schemas_py_model_validator",
+      "_tgt": "backend_app_reviews_schemas_reviewinput_valid_defects"
     },
     {
       "source": "backend_tests_test_accounts_py_fixture",
@@ -24246,6 +27724,19 @@
       "_origin": "ast",
       "_src": "backend_tests_test_applications_env",
       "_tgt": "backend_tests_test_applications_py_fixture"
+    },
+    {
+      "source": "backend_tests_test_dependencies_py_fixture",
+      "target": "backend_tests_test_dependencies_env",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/tests/test_dependencies.py",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "decorator",
+      "_origin": "ast",
+      "_src": "backend_tests_test_dependencies_env",
+      "_tgt": "backend_tests_test_dependencies_py_fixture"
     },
     {
       "source": "backend_tests_test_portfolios_py_fixture",
@@ -24322,7 +27813,33 @@
       "source_location": "L7",
       "weight": 1.0,
       "_origin": "ast",
-      "_src": "frontend_src_reviews_reviewsdue_props",
+      "_src": "frontend_src_accounts_api_account",
+      "_tgt": "frontend_src_reviews_reviewsdue_props"
+    },
+    {
+      "source": "frontend_src_accounts_api_account",
+      "target": "frontend_src_dependencies_dependencies_props",
+      "relation": "references",
+      "context": "field",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/dependencies/Dependencies.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "_src": "frontend_src_dependencies_dependencies_props",
+      "_tgt": "frontend_src_accounts_api_account"
+    },
+    {
+      "source": "frontend_src_accounts_api_account",
+      "target": "frontend_src_dependencies_dependencyform_props",
+      "relation": "references",
+      "context": "field",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/dependencies/DependencyForm.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "_src": "frontend_src_dependencies_dependencyform_props",
       "_tgt": "frontend_src_accounts_api_account"
     },
     {
@@ -24393,10 +27910,10 @@
     }
   ],
   "metadata": {
-    "built_at": "2026-11-23T10:45:49.057991+00:00",
+    "built_at": "2026-11-23T10:50:50.915765+00:00",
     "version": "graph_update-v1",
     "codebase_root": "C:\\artifacts-v2\\T0132PcJVCRTV000423112609191514\\developer",
     "force": true,
-    "files_scanned": 61
+    "files_scanned": 71
   }
 }

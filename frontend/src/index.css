@@ -29,6 +29,8 @@ input:not([type=radio]) { width: 100%; min-height: 40px; border: 1px solid var(-
 .content { padding: 48px; width: min(100%, 1280px); }
 .account-card { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 24px; max-width: 640px; }
 .account-nav { display: flex; flex-wrap: wrap; gap: 8px; border-bottom: 1px solid var(--border); margin-bottom: 24px; }
+.account-nav button[aria-current=page] { border-bottom: 2px solid var(--green); font-weight: 600; }
+.portfolio-panel input[type=checkbox] { width: auto; min-height: auto; }
 dt { font-size: 12px; font-weight: 600; color: var(--muted); margin-top: 16px; }
 dd { margin: 4px 0 0; overflow-wrap: anywhere; text-transform: none; }
 fieldset { border: 0; padding: 0; margin: 0; }

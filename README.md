@@ -1,6 +1,6 @@
 # Enterprise Application Portfolio Manager
 
-This first slice provides accounts, sign-in, first-use password selection and account preferences. Inventory, reporting and administration are not yet implemented.
+The application manages portfolios, applications, reviews, dependencies, reports and administration.
 
 ## Local setup
 
@@ -15,6 +15,8 @@ uvicorn app.main:app --reload
 ```
 
 In a second terminal, `cd frontend && npm install && npm run dev`. The Vite proxy forwards `/api` to port 8000. Or run `docker compose up --build` from the root after configuring `backend/.env` and open `http://localhost:8080`. Compose's MongoDB is for local development only; production requires authenticated MongoDB and HTTPS termination at a trusted reverse proxy. Never expose the development MongoDB to an untrusted network.
+
+The fictional estate is seeded idempotently at startup by default; set `SEED_ON_STARTUP=false` for a real deployment. Role defaults and the review interval are always initialized without overwriting edits. Fictional people have unusable password hashes and cannot sign in; only the environment-provisioned bootstrap administrator or users created with an administrator-supplied temporary password can authenticate. Deliver temporary credentials out of band. Seeding is intended for a fresh demonstration database; it does not overwrite existing records.
 
 ## Tests
 

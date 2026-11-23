@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     bootstrap_email: str = ""
     bootstrap_name: str = "Initial Administrator"
     bootstrap_password: str = ""
+    seed_on_startup: bool = True
 
     def validate_security(self) -> None:
         """Reject absent and known example signing keys."""

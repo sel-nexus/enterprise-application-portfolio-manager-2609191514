@@ -7,6 +7,8 @@ from pymongo import AsyncMongoClient
 
 from app.accounts.repository import AccountRepository
 from app.accounts.router import router
+from app.admin.router import router as admin_router
+from app.admin.seed import seed_database, seed_roles
 from app.applications.repository import ApplicationRepository
 from app.applications.router import router as application_router
 from app.core.config import settings
@@ -33,8 +35,11 @@ async def lifespan(app: FastAPI):
         await ApplicationRepository(app.state.db).indexes()
         await ReviewRepository(app.state.db).indexes()
         await DependencyRepository(app.state.db).indexes()
+        await seed_roles(app.state.db)
         if settings.bootstrap_email:
             await repo.bootstrap(settings.bootstrap_email.strip().lower(), settings.bootstrap_name, await hash_password(settings.bootstrap_password))
+        if settings.seed_on_startup:
+            await seed_database(app.state.db)
         yield
     finally:
         await client.close()
@@ -48,6 +53,7 @@ app.include_router(application_router)
 app.include_router(review_router)
 app.include_router(dependency_router)
 app.include_router(reporting_router)
+app.include_router(admin_router)
 
 
 @app.get("/api/health", tags=["health"])
