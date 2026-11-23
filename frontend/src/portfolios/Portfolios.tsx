@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import type { Account } from '../accounts/api';
 import PortfolioForm from './PortfolioForm';
 import { portfoliosApi, type Portfolio, type PortfolioInput, type PortfolioPage } from './api';
+import { applicationsApi, type Application } from '../applications/api';
 
 interface Props { token: string; account: Account }
 
@@ -12,6 +13,8 @@ export default function Portfolios({ token, account }: Props) {
   const [page, setPage] = useState(1);
   const [result, setResult] = useState<PortfolioPage | null>(null);
   const [selected, setSelected] = useState<Portfolio | null>(null);
+  const [applications, setApplications] = useState<Application[]>([]);
+  const [applicationsError, setApplicationsError] = useState('');
   const [form, setForm] = useState<'new' | 'edit' | null>(null);
   const [dialog, setDialog] = useState<'archive' | 'delete' | null>(null);
   const [loading, setLoading] = useState(true);
@@ -20,6 +23,19 @@ export default function Portfolios({ token, account }: Props) {
   const [notice, setNotice] = useState('');
   const [revision, setRevision] = useState(0);
   const canEdit = ['administrator', 'portfolio_leader'].includes(account.role);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get('portfolio');
+    if (id) portfoliosApi.get(token, id).then(setSelected).catch(() => setError('This page could not be loaded'));
+  }, [token]);
+  useEffect(() => {
+    if (!selected) { setApplications([]); return; }
+    let active = true;
+    setApplicationsError('');
+    applicationsApi.list(token, new URLSearchParams({ portfolio_id: selected.id, lifecycle: 'All', include_archived: 'true' }))
+      .then(result => { if (active) setApplications(result.items); })
+      .catch(() => { if (active) setApplicationsError('Applications could not be loaded.'); });
+    return () => { active = false; };
+  }, [token, selected?.id]);
   useEffect(() => {
     let active = true;
     setLoading(true); setError('');
@@ -67,6 +83,10 @@ export default function Portfolios({ token, account }: Props) {
         {selected && <section className="portfolio-detail" aria-label="Portfolio details">
           <h2>{selected.name}</h2><span className={`status-chip ${selected.status.toLowerCase()}`}>{selected.status}</span>
           <dl><dt>Owner</dt><dd>{selected.owner}</dd><dt>Product area</dt><dd>{selected.product_area}</dd><dt>Description</dt><dd>{selected.description || 'No description yet.'}</dd><dt>Applications</dt><dd>{selected.application_count}</dd><dt>Quality</dt><dd>—</dd><dt>Open critical defects</dt><dd>—</dd></dl>
+          <h3>Applications</h3>
+          {applicationsError && <p role="alert">{applicationsError}</p>}
+          {applications.map(item => <p key={item.id}><a href={`/applications/${item.id}`}>{item.name}</a> · {item.criticality} · {item.lifecycle}</p>)}
+          {selected.application_count > applications.length && <a href={`/applications?portfolio_id=${encodeURIComponent(selected.id)}&lifecycle=All&include_archived=true`}>View all applications</a>}
           <div className="portfolio-actions">{canEdit && <button className="secondary" onClick={() => setForm('edit')}>Edit</button>}{canEdit && selected.status === 'Active' && <button className="text-button danger" onClick={() => setDialog('archive')}>Archive</button>}{account.role === 'administrator' && <button className="text-button danger" onClick={() => setDialog('delete')}>Delete</button>}</div>
         </section>}
       </div>}

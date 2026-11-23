@@ -65,4 +65,10 @@ th, td { border-bottom: 1px solid var(--border); padding: 12px; white-space: now
 .danger-button { background: var(--error); color: white; border: 0; border-radius: 4px; padding: 8px 16px; }
 @media (max-width: 1100px) { .portfolio-layout.selected { grid-template-columns: 1fr; } }
 @media (max-width: 767px) { .shell-nav { margin: 0; } .portfolio-header, .portfolio-filters { flex-direction: column; align-items: stretch; } }
+.application-filters { flex-wrap: wrap; }
+.application-record-header { margin: 24px 0; }
+.application-record-header h1 { font-size: 32px; }
+.application-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-bottom: 24px; }
+.application-filters input[type=checkbox] { width: auto; min-height: auto; }
+@media (max-width: 900px) { .application-cards { grid-template-columns: 1fr; } }
 

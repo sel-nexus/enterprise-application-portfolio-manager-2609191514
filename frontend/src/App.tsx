@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
-import { BrowserRouter, useNavigate, useLocation, Link } from 'react-router-dom';
+import { BrowserRouter, useNavigate, useLocation, Link, Routes, Route } from 'react-router-dom';
 import Login from './accounts/Login';
 import Account, { PasswordForm } from './accounts/Account';
 import { api, ApiError, type Account as AccountData, type Session } from './accounts/api';
 import Portfolios from './portfolios/Portfolios';
+import Applications from './applications/Applications';
+import ApplicationRecord from './applications/ApplicationRecord';
 
 const storageKey = 'portfolio-session';
 
@@ -48,12 +50,17 @@ function Shell() {
   if (setup) return <main className="auth-layout"><section className="auth-card"><h1>Enterprise Application<br />Portfolio Manager</h1><PasswordForm token={token} initial onChanged={accept} /><button className="text-button" onClick={clear}>Back to sign in</button></section></main>;
   return (
     <div className="shell">
-      <aside className="rail"><strong>Enterprise Application<br />Portfolio Manager</strong><nav className="shell-nav" aria-label="Main navigation"><Link to="/portfolios" aria-current={location.pathname === '/portfolios' ? 'page' : undefined}>Portfolios</Link><Link to="/account" aria-current={location.pathname === '/account' ? 'page' : undefined}>Account</Link></nav><div className="rail-account">{account?.name}<small>{account?.role.replaceAll('_', ' ')}</small></div></aside>
+      <aside className="rail"><strong>Enterprise Application<br />Portfolio Manager</strong><nav className="shell-nav" aria-label="Main navigation"><Link to="/portfolios" aria-current={location.pathname === '/portfolios' ? 'page' : undefined}>Portfolios</Link><Link to="/applications" aria-current={location.pathname.startsWith('/applications') ? 'page' : undefined}>Applications</Link><Link to="/account" aria-current={location.pathname === '/account' ? 'page' : undefined}>Account</Link></nav><div className="rail-account">{account?.name}<small>{account?.role.replaceAll('_', ' ')}</small></div></aside>
       <main className="content">
-        {location.pathname !== '/portfolios' && <header><h1>Account</h1><p>Manage your account and sign-in preferences.</p></header>}
+        {location.pathname === '/account' && <header><h1>Account</h1><p>Manage your account and sign-in preferences.</p></header>}
         {loading && <p role="status">Loading account…</p>}
         {error && <div className="account-card" role="alert"><p>{error}</p><button className="secondary" onClick={() => { if (account) void signOut(); else setRetry(retry + 1); }}>Try again</button></div>}
-        {account && (location.pathname === '/portfolios' ? <Portfolios token={token} account={account} /> : <Account token={token} account={account} onAccount={setAccount} onSession={accept} onSignOut={() => void signOut()} />)}
+        {account && <Routes>
+          <Route path="/portfolios" element={<Portfolios token={token} account={account} />} />
+          <Route path="/applications" element={<Applications token={token} account={account} />} />
+          <Route path="/applications/:applicationId" element={<ApplicationRecord token={token} account={account} />} />
+          <Route path="*" element={<Account token={token} account={account} onAccount={setAccount} onSession={accept} onSignOut={() => void signOut()} />} />
+        </Routes>}
       </main>
     </div>
   );

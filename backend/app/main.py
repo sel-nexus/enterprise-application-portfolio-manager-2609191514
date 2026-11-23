@@ -7,6 +7,8 @@ from pymongo import AsyncMongoClient
 
 from app.accounts.repository import AccountRepository
 from app.accounts.router import router
+from app.applications.repository import ApplicationRepository
+from app.applications.router import router as application_router
 from app.core.config import settings
 from app.core.security import hash_password
 from app.portfolios.repository import PortfolioRepository
@@ -23,6 +25,7 @@ async def lifespan(app: FastAPI):
         repo = AccountRepository(app.state.db)
         await repo.indexes()
         await PortfolioRepository(app.state.db).indexes()
+        await ApplicationRepository(app.state.db).indexes()
         if settings.bootstrap_email:
             await repo.bootstrap(settings.bootstrap_email.strip().lower(), settings.bootstrap_name, await hash_password(settings.bootstrap_password))
         yield
@@ -34,6 +37,7 @@ app = FastAPI(title="Enterprise Application Portfolio Manager", version="1.0.0",
 app.add_middleware(CORSMiddleware, allow_origins=[x.strip() for x in settings.cors_origins.split(",") if x.strip()], allow_methods=["*"], allow_headers=["*"], allow_credentials=False)
 app.include_router(router)
 app.include_router(portfolio_router)
+app.include_router(application_router)
 
 
 @app.get("/api/health", tags=["health"])
