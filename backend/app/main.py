@@ -13,6 +13,8 @@ from app.core.config import settings
 from app.core.security import hash_password
 from app.portfolios.repository import PortfolioRepository
 from app.portfolios.router import router as portfolio_router
+from app.reviews.repository import ReviewRepository
+from app.reviews.router import router as review_router
 
 
 @asynccontextmanager
@@ -26,6 +28,7 @@ async def lifespan(app: FastAPI):
         await repo.indexes()
         await PortfolioRepository(app.state.db).indexes()
         await ApplicationRepository(app.state.db).indexes()
+        await ReviewRepository(app.state.db).indexes()
         if settings.bootstrap_email:
             await repo.bootstrap(settings.bootstrap_email.strip().lower(), settings.bootstrap_name, await hash_password(settings.bootstrap_password))
         yield
@@ -38,6 +41,7 @@ app.add_middleware(CORSMiddleware, allow_origins=[x.strip() for x in settings.co
 app.include_router(router)
 app.include_router(portfolio_router)
 app.include_router(application_router)
+app.include_router(review_router)
 
 
 @app.get("/api/health", tags=["health"])

@@ -70,5 +70,8 @@ th, td { border-bottom: 1px solid var(--border); padding: 12px; white-space: now
 .application-record-header h1 { font-size: 32px; }
 .application-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-bottom: 24px; }
 .application-filters input[type=checkbox] { width: auto; min-height: auto; }
+.review-chart { display: flex; height: 12px; background: #efeded; max-width: 480px; }
+.review-current { background: var(--green); }
+.review-due { background: #ffc107; }
 @media (max-width: 900px) { .application-cards { grid-template-columns: 1fr; } }
 

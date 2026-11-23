@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import type { Account } from '../accounts/api';
 import { portfoliosApi, type Portfolio } from '../portfolios/api';
 import ApplicationForm from './ApplicationForm';
+import { reviewsApi, type Review } from '../reviews/api';
 import { applicationsApi, type ApplicationInput, type ApplicationPage } from './api';
 
 interface Props { token: string; account: Account }
@@ -12,6 +13,7 @@ export default function Applications({ token, account }: Props) {
   const [params, setParams] = useSearchParams();
   const navigate = useNavigate();
   const [result, setResult] = useState<ApplicationPage | null>(null);
+  const [latest, setLatest] = useState<Record<string, Review | undefined>>({});
   const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -28,7 +30,10 @@ export default function Applications({ token, account }: Props) {
   useEffect(() => {
     let active = true;
     setLoading(true); setError('');
-    applicationsApi.list(token, params).then(data => { if (active) setResult(data); })
+    applicationsApi.list(token, params).then(async data => {
+      const reviews = await Promise.all(data.items.map(item => reviewsApi.history(token, item.id)));
+      if (active) { setResult(data); setLatest(Object.fromEntries(data.items.map((item, index) => [item.id, reviews[index].items[0]]))); }
+    })
       .catch(() => { if (active) setError('This page could not be loaded'); })
       .finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
@@ -66,12 +71,11 @@ export default function Applications({ token, account }: Props) {
         <label className="radio"><input type="checkbox" checked={params.get('include_archived') === 'true'} onChange={e => change('include_archived', e.target.checked ? 'true' : '')} />Include archived portfolios</label>
         <button className="text-button" onClick={() => setParams({})}>Clear filters</button>
       </div>
-      <p>Review metrics and risk filters will be available when reviews are implemented.</p>
       {loading && <p role="status">Loading applications…</p>}
       {!loading && result && <section className="portfolio-list" aria-label="Application list">
         {result.items.length === 0 ? <p>{params.toString() ? 'No applications match.' : 'No applications yet.'}</p> : <div className="table-scroll"><table>
           <thead><tr><th scope="col">Name</th><th scope="col">Portfolio</th><th scope="col">Criticality</th><th scope="col">Tier</th><th scope="col">Lifecycle</th><th scope="col">Health</th><th scope="col">Automation coverage</th><th scope="col">Open critical defects</th><th scope="col">Risk</th></tr></thead>
-          <tbody>{result.items.map(item => <tr key={item.id}><td><Link to={`/applications/${item.id}`}>{item.name}</Link></td><td>{item.portfolio_name}</td><td>{item.criticality}</td><td>{item.tier}</td><td>{item.lifecycle}</td><td>—</td><td>—</td><td>—</td><td>Unavailable</td></tr>)}</tbody>
+          <tbody>{result.items.map(item => <tr key={item.id}><td><Link to={`/applications/${item.id}`}>{item.name}</Link></td><td>{item.portfolio_name}</td><td>{item.criticality}</td><td>{item.tier}</td><td>{item.lifecycle}</td><td>{latest[item.id]?.health ?? '—'}</td><td>{latest[item.id]?.automation_coverage ?? '—'}</td><td>{latest[item.id]?.open_critical_defects ?? '—'}</td><td>{latest[item.id]?.risk || 'No review'}</td></tr>)}</tbody>
         </table></div>}
         <div className="pagination"><button className="text-button" disabled={page === 1} onClick={() => change('page', String(page - 1))}>Previous</button><span>Page {page} · {result.total ? (page - 1) * result.page_size + 1 : 0}–{Math.min(page * result.page_size, result.total)} of {result.total}</span><button className="text-button" disabled={page * result.page_size >= result.total} onClick={() => change('page', String(page + 1))}>Next</button></div>
       </section>}
