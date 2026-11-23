@@ -11,6 +11,8 @@ from app.applications.repository import ApplicationRepository
 from app.applications.router import router as application_router
 from app.core.config import settings
 from app.core.security import hash_password
+from app.dependencies.repository import DependencyRepository
+from app.dependencies.router import router as dependency_router
 from app.portfolios.repository import PortfolioRepository
 from app.portfolios.router import router as portfolio_router
 from app.reviews.repository import ReviewRepository
@@ -29,6 +31,7 @@ async def lifespan(app: FastAPI):
         await PortfolioRepository(app.state.db).indexes()
         await ApplicationRepository(app.state.db).indexes()
         await ReviewRepository(app.state.db).indexes()
+        await DependencyRepository(app.state.db).indexes()
         if settings.bootstrap_email:
             await repo.bootstrap(settings.bootstrap_email.strip().lower(), settings.bootstrap_name, await hash_password(settings.bootstrap_password))
         yield
@@ -42,6 +45,7 @@ app.include_router(router)
 app.include_router(portfolio_router)
 app.include_router(application_router)
 app.include_router(review_router)
+app.include_router(dependency_router)
 
 
 @app.get("/api/health", tags=["health"])

@@ -1,0 +1,57 @@
+import { expect, test } from '@playwright/test';
+
+test('create and remove a directional dependency across both application records', async ({ page }) => {
+  const email = process.env.E2E_EMAIL;
+  const password = process.env.E2E_NEW_PASSWORD;
+  if (!email || !password) throw new Error('Set E2E_EMAIL and E2E_NEW_PASSWORD for an existing administrator.');
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
+  const suffix = Date.now();
+  const portfolio = `Dependencies portfolio ${suffix}`;
+  const source = `Dependencies source ${suffix}`;
+  const target = `Dependencies target ${suffix}`;
+  await page.goto('/');
+  await page.getByLabel('Email').fill(email);
+  await page.getByLabel('Password', { exact: true }).fill(password);
+  await page.getByRole('button', { name: 'Sign in' }).click();
+  await page.getByRole('link', { name: 'Portfolios', exact: true }).click();
+  await page.getByRole('button', { name: 'New portfolio' }).click();
+  await page.getByLabel('Name', { exact: true }).fill(portfolio);
+  await page.getByLabel('Owner', { exact: true }).fill('Owner');
+  await page.getByLabel('Product area', { exact: true }).fill('Finance');
+  await page.getByRole('button', { name: 'Save', exact: true }).click();
+  await expect(page.getByText('Portfolio saved.')).toBeVisible();
+  for (const name of [source, target]) {
+    await page.getByRole('link', { name: 'Applications', exact: true }).click();
+    await page.getByRole('button', { name: 'New application' }).click();
+    await page.getByLabel('Name', { exact: true }).fill(name);
+    await page.getByRole('dialog').getByLabel('Portfolio', { exact: true }).selectOption({ label: portfolio });
+    await page.getByRole('button', { name: 'Save', exact: true }).click();
+    await expect(page.getByRole('heading', { name, exact: true })).toBeVisible();
+  }
+  await page.getByRole('link', { name: 'Dependencies', exact: true }).click();
+  await page.getByRole('button', { name: 'Add dependency' }).click();
+  await page.getByLabel('From', { exact: true }).selectOption({ label: source });
+  await page.getByLabel('Relationship', { exact: true }).last().selectOption('Calls');
+  await page.getByLabel('To', { exact: true }).selectOption({ label: target });
+  await page.getByLabel('Note').fill('E2E interface');
+  await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click();
+  await expect(page.getByText('Dependency added')).toBeVisible();
+  await page.getByLabel('Search', { exact: true }).fill(source);
+  const row = page.getByRole('row').filter({ hasText: source });
+  await expect(row).toContainText(target);
+  await row.getByRole('link', { name: target }).click();
+  await expect(page.getByRole('heading', { name: 'Used by' })).toBeVisible();
+  await expect(page.getByRole('link', { name: source })).toBeVisible();
+  await page.getByRole('link', { name: source }).click();
+  await expect(page.getByRole('heading', { name: 'Depends on' })).toBeVisible();
+  await page.getByRole('button', { name: 'Remove' }).click();
+  await expect(page.getByRole('dialog')).toContainText(`Remove the link from ${source} to ${target}? Both application records will update.`);
+  await page.getByRole('dialog').getByRole('button', { name: 'Remove' }).click();
+  await expect(page.getByText('Dependency removed')).toBeVisible();
+  await page.getByRole('link', { name: 'Dependencies', exact: true }).click();
+  await page.getByLabel('Search', { exact: true }).fill(source);
+  await expect(page.getByText('No dependency matches that search.')).toBeVisible();
+  expect(errors).toEqual([]);
+});

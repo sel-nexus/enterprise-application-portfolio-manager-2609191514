@@ -74,4 +74,9 @@ th, td { border-bottom: 1px solid var(--border); padding: 12px; white-space: now
 .review-current { background: var(--green); }
 .review-due { background: #ffc107; }
 @media (max-width: 900px) { .application-cards { grid-template-columns: 1fr; } }
+.dependency-summary { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin: 24px 0; }
+.dependency-bar-row { display: grid; grid-template-columns: minmax(120px, 1fr) 2fr auto; gap: 12px; align-items: center; margin: 12px 0; }
+.dependency-track { background: #efeded; height: 12px; }
+.dependency-bar { background: var(--green); height: 100%; }
+@media (max-width: 767px) { .dependency-summary { grid-template-columns: 1fr; } }
 

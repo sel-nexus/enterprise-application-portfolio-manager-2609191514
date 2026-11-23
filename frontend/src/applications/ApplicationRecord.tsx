@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import type { Account } from '../accounts/api';
 import ApplicationForm from './ApplicationForm';
 import ReviewForm, { ReviewerAssignment } from '../reviews/ReviewForm';
+import { ApplicationDependencies } from '../dependencies/Dependencies';
 import { reviewsApi, type History } from '../reviews/api';
 import { applicationsApi, type Application, type ApplicationInput, type Lifecycle } from './api';
 
@@ -84,7 +85,7 @@ export default function ApplicationRecord({ token, account }: Props) {
         <section className="portfolio-detail"><h2>Review history</h2>{history?.items.length ? <div className="table-scroll"><table><thead><tr>{['Date', 'Reviewer', 'Quality', 'Health', 'Automation coverage', 'Open critical defects', 'Risk', 'Details'].map(x => <th scope="col" key={x}>{x}</th>)}</tr></thead><tbody>{history.items.map(r => <tr key={r.id}><td>{r.date}</td><td>{r.recorder_name}</td><td>{r.quality}</td><td>{r.health}</td><td>{r.automation_coverage}</td><td>{r.open_critical_defects}</td><td>{r.risk}</td><td><details><summary>More</summary><p>Unit-test coverage: {r.unit_test_coverage}</p><p>{r.note || 'No note.'}</p></details></td></tr>)}</tbody></table></div> : <p>No reviews recorded.</p>}<div className="pagination"><button className="text-button" disabled={historyPage === 1} onClick={() => setHistoryPage(x => x - 1)}>Previous</button><span>Page {historyPage}</span><button className="text-button" disabled={!history || historyPage * history.page_size >= history.total} onClick={() => setHistoryPage(x => x + 1)}>Next</button></div></section>
         {reviewForm && <ReviewForm token={token} applicationId={applicationId} onCancel={() => setReviewForm(false)} onSaved={() => { setReviewForm(false); setHistoryPage(1); setNotice('Review recorded'); setRevision(x => x + 1); }} />}
         {assignment && <ReviewerAssignment token={token} applicationId={applicationId} current={history?.assigned_reviewer_id} onCancel={() => setAssignment(false)} onSaved={() => { setAssignment(false); setNotice('Reviewer assigned'); setRevision(x => x + 1); }} />}
-        <section className="portfolio-detail"><h2>Dependencies</h2><p>Dependency data is not yet available.</p></section>
+        <ApplicationDependencies token={token} account={account} applicationId={applicationId} />
         {form && <ApplicationForm token={token} application={item} onCancel={() => setForm(false)} onSave={save} />}
         {dialog && <div className="portfolio-overlay"><section className="portfolio-dialog" role="dialog" aria-modal="true" aria-labelledby="application-dialog-title">
           <h2 id="application-dialog-title">{dialog === 'delete' ? `Delete ${item.name}?` : 'Change lifecycle'}</h2>
