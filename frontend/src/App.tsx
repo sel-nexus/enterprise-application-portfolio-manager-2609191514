@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
-import { BrowserRouter, useNavigate } from 'react-router-dom';
+import { BrowserRouter, useNavigate, useLocation, Link } from 'react-router-dom';
 import Login from './accounts/Login';
 import Account, { PasswordForm } from './accounts/Account';
 import { api, ApiError, type Account as AccountData, type Session } from './accounts/api';
+import Portfolios from './portfolios/Portfolios';
 
 const storageKey = 'portfolio-session';
 
 /** Coordinate the authenticated account shell and session lifecycle. */
 function Shell() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [token, setToken] = useState(() => sessionStorage.getItem(storageKey) || '');
   const [setup, setSetup] = useState(false);
   const [account, setAccount] = useState<AccountData | null>(null);
@@ -27,7 +29,7 @@ function Shell() {
     let active = true;
     setLoading(true); setError('');
     api.me(token).then(result => {
-      if (active) { setAccount(result); navigate(`/${result.landing_page.replace('_', '-')}`, { replace: true }); }
+      if (active) { setAccount(result); if (location.pathname === '/') navigate(`/${result.landing_page.replace('_', '-')}`, { replace: true }); }
     }).catch(err => {
       if (!active) return;
       if (err instanceof ApiError && err.status === 401) clear();
@@ -46,12 +48,12 @@ function Shell() {
   if (setup) return <main className="auth-layout"><section className="auth-card"><h1>Enterprise Application<br />Portfolio Manager</h1><PasswordForm token={token} initial onChanged={accept} /><button className="text-button" onClick={clear}>Back to sign in</button></section></main>;
   return (
     <div className="shell">
-      <aside className="rail"><strong>Enterprise Application<br />Portfolio Manager</strong><div className="rail-account">{account?.name}<small>{account?.role.replaceAll('_', ' ')}</small></div></aside>
+      <aside className="rail"><strong>Enterprise Application<br />Portfolio Manager</strong><nav className="shell-nav" aria-label="Main navigation"><Link to="/portfolios" aria-current={location.pathname === '/portfolios' ? 'page' : undefined}>Portfolios</Link><Link to="/account" aria-current={location.pathname === '/account' ? 'page' : undefined}>Account</Link></nav><div className="rail-account">{account?.name}<small>{account?.role.replaceAll('_', ' ')}</small></div></aside>
       <main className="content">
-        <header><h1>Account</h1><p>Manage your account and sign-in preferences.</p></header>
+        {location.pathname !== '/portfolios' && <header><h1>Account</h1><p>Manage your account and sign-in preferences.</p></header>}
         {loading && <p role="status">Loading account…</p>}
         {error && <div className="account-card" role="alert"><p>{error}</p><button className="secondary" onClick={() => { if (account) void signOut(); else setRetry(retry + 1); }}>Try again</button></div>}
-        {account && <Account token={token} account={account} onAccount={setAccount} onSession={accept} onSignOut={() => void signOut()} />}
+        {account && (location.pathname === '/portfolios' ? <Portfolios token={token} account={account} /> : <Account token={token} account={account} onAccount={setAccount} onSession={accept} onSignOut={() => void signOut()} />)}
       </main>
     </div>
   );
