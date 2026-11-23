@@ -1,0 +1,36 @@
+import { test, expect } from '@playwright/test';
+
+test('first sign-in, password selection, preferences and sign-out', async ({ page }) => {
+  const email = process.env.E2E_EMAIL;
+  const temporary = process.env.E2E_TEMP_PASSWORD;
+  const replacement = process.env.E2E_NEW_PASSWORD;
+  if (!email || !temporary || !replacement) throw new Error('Set E2E_EMAIL, E2E_TEMP_PASSWORD and E2E_NEW_PASSWORD for an isolated fresh account.');
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  page.on('console', message => { if (message.type() === 'error' && !message.text().includes('401')) errors.push(message.text()); });
+  await page.goto('/');
+  await page.getByLabel('Email').fill(email);
+  await page.getByLabel('Password', { exact: true }).fill('incorrect');
+  await page.getByRole('button', { name: 'Sign in' }).click();
+  await expect(page.getByRole('alert')).toHaveText('Email or password is incorrect.');
+  await page.getByLabel('Password', { exact: true }).fill(temporary);
+  await page.getByRole('button', { name: 'Sign in' }).click();
+  await expect(page.getByRole('heading', { name: 'Choose your password' })).toBeVisible();
+  await page.getByLabel('Current password').fill(temporary);
+  await page.getByLabel('New password').fill(replacement);
+  await page.getByLabel('Confirm password').fill(replacement);
+  await page.getByRole('button', { name: 'Save password' }).click();
+  await expect(page.getByText(email)).toBeVisible();
+  await page.getByRole('button', { name: 'Landing page' }).click();
+  await page.getByRole('radio', { name: /Reviews due/ }).check();
+  await page.getByRole('button', { name: 'Save', exact: true }).click();
+  await expect(page.getByRole('status')).toHaveText('Landing page saved.');
+  await page.getByRole('button', { name: 'Sign out' }).click();
+  await expect(page.getByRole('button', { name: 'Sign in' })).toBeVisible();
+  await page.getByLabel('Email').fill(email);
+  await page.getByLabel('Password', { exact: true }).fill(replacement);
+  await page.getByRole('button', { name: 'Sign in' }).click();
+  await expect(page.getByText(email)).toBeVisible();
+  await expect(page).toHaveURL(/reviews-due/);
+  expect(errors).toEqual([]);
+});
