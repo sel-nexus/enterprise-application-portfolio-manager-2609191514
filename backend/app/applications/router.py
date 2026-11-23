@@ -19,9 +19,9 @@ def get_service(db: Annotated[AsyncDatabase, Depends(get_database)], accounts: A
 
 
 @router.get('', response_model=ApplicationPage)
-async def list_applications(session: Annotated[tuple[dict, dict], Depends(current_session)], service: Annotated[ApplicationService, Depends(get_service)], search: Annotated[str, Query(max_length=200)] = '', portfolio_id: Annotated[str, Query(max_length=100)] = '', criticality: Literal['All', 'Low', 'Medium', 'High', 'Critical'] = 'All', lifecycle: Literal['Default', 'All', 'Active', 'Deprecated', 'Retired'] = 'Default', include_archived: bool = False, page: Annotated[int, Query(ge=1)] = 1, page_size: Annotated[int, Query(ge=1, le=100)] = 25) -> ApplicationPage:
+async def list_applications(session: Annotated[tuple[dict, dict], Depends(current_session)], service: Annotated[ApplicationService, Depends(get_service)], search: Annotated[str, Query(max_length=200)] = '', portfolio_id: Annotated[str, Query(max_length=100)] = '', criticality: Literal['All', 'Low', 'Medium', 'High', 'Critical'] = 'All', lifecycle: Literal['Default', 'All', 'Active', 'Deprecated', 'Retired'] = 'Default', include_archived: bool = False, page: Annotated[int, Query(ge=1)] = 1, page_size: Annotated[int, Query(ge=1, le=100)] = 25, risk: Literal['All', 'Low', 'Medium', 'High', 'No review'] = 'All') -> ApplicationPage:
     """Search visible applications."""
-    return await service.list(session[0], search.strip(), portfolio_id, criticality, lifecycle, include_archived, page, page_size)
+    return await service.list(session[0], search.strip(), portfolio_id, criticality, lifecycle, include_archived, page, page_size, risk)
 
 
 @router.post('', response_model=ApplicationResponse, status_code=201)

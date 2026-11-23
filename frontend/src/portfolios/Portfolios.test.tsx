@@ -1,15 +1,18 @@
 import '@testing-library/jest-dom/vitest';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Portfolios from './Portfolios';
 import { portfoliosApi } from './api';
 import type { Account } from '../accounts/api';
+import { reportingApi } from '../reporting/api';
 
 vi.mock('./api', () => ({ portfoliosApi: { list: vi.fn(), create: vi.fn(), update: vi.fn(), archive: vi.fn(), remove: vi.fn() } }));
+vi.mock('../reporting/api', () => ({ reportingApi: { report: vi.fn().mockResolvedValue({ items: [], total: 0, page: 1, page_size: 100 }) } }));
 const account: Account = { id: 'u', name: 'Admin', email: 'admin@example.com', role: 'administrator', portfolio_ids: [], last_sign_in: null, landing_page: 'dashboard' };
 const portfolio = { id: '1', name: 'Payments', owner: 'Alex', product_area: 'Finance', description: '', status: 'Active' as const, application_count: 1 };
 afterEach(() => { cleanup(); vi.resetAllMocks(); });
+beforeEach(() => { vi.mocked(reportingApi.report).mockResolvedValue({ items: [], total: 0, page: 1, page_size: 100 }); });
 
 describe('portfolio inventory', () => {
   it('shows details and blocks delete confirmation when applications remain', async () => {

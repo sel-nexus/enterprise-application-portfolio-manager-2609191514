@@ -79,4 +79,12 @@ th, td { border-bottom: 1px solid var(--border); padding: 12px; white-space: now
 .dependency-track { background: #efeded; height: 12px; }
 .dependency-bar { background: var(--green); height: 100%; }
 @media (max-width: 767px) { .dependency-summary { grid-template-columns: 1fr; } }
+.dashboard-metrics { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; background: #f7fbf2; padding: 16px; margin: 24px 0; }
+.metric { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+.metric h2 { font-size: 12px; text-transform: uppercase; color: var(--muted); }
+.metric strong { color: var(--teal); font-size: 32px; }
+.dashboard-charts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin: 24px 0; }
+.risk-bar { background: var(--error); }
+@media (max-width: 1279px) { .dashboard-metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 767px) { .dashboard-metrics, .dashboard-charts { grid-template-columns: 1fr; } }
 

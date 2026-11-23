@@ -17,6 +17,7 @@ from app.portfolios.repository import PortfolioRepository
 from app.portfolios.router import router as portfolio_router
 from app.reviews.repository import ReviewRepository
 from app.reviews.router import router as review_router
+from app.reporting.router import router as reporting_router
 
 
 @asynccontextmanager
@@ -46,6 +47,7 @@ app.include_router(portfolio_router)
 app.include_router(application_router)
 app.include_router(review_router)
 app.include_router(dependency_router)
+app.include_router(reporting_router)
 
 
 @app.get("/api/health", tags=["health"])

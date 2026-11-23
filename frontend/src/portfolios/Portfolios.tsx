@@ -3,6 +3,8 @@ import type { Account } from '../accounts/api';
 import PortfolioForm from './PortfolioForm';
 import { portfoliosApi, type Portfolio, type PortfolioInput, type PortfolioPage } from './api';
 import { applicationsApi, type Application } from '../applications/api';
+import { reviewsApi, type Review } from '../reviews/api';
+import { reportingApi, type ReportRow } from '../reporting/api';
 
 interface Props { token: string; account: Account }
 
@@ -14,6 +16,8 @@ export default function Portfolios({ token, account }: Props) {
   const [result, setResult] = useState<PortfolioPage | null>(null);
   const [selected, setSelected] = useState<Portfolio | null>(null);
   const [applications, setApplications] = useState<Application[]>([]);
+  const [latest, setLatest] = useState<Record<string, Review | undefined>>({});
+  const [rollups, setRollups] = useState<Record<string, ReportRow>>({});
   const [applicationsError, setApplicationsError] = useState('');
   const [form, setForm] = useState<'new' | 'edit' | null>(null);
   const [dialog, setDialog] = useState<'archive' | 'delete' | null>(null);
@@ -32,10 +36,20 @@ export default function Portfolios({ token, account }: Props) {
     let active = true;
     setApplicationsError('');
     applicationsApi.list(token, new URLSearchParams({ portfolio_id: selected.id, lifecycle: 'All', include_archived: 'true' }))
-      .then(result => { if (active) setApplications(result.items); })
+      .then(async result => { const reviews = await Promise.all(result.items.map(item => reviewsApi.history(token, item.id))); if (active) { setApplications(result.items); setLatest(Object.fromEntries(result.items.map((item, index) => [item.id, reviews[index].items[0]]))); } })
       .catch(() => { if (active) setApplicationsError('Applications could not be loaded.'); });
     return () => { active = false; };
   }, [token, selected?.id]);
+  useEffect(() => {
+    let active = true;
+    async function load() {
+      let pageNumber = 1; let total = 0; const items: ReportRow[] = [];
+      do { const data = await reportingApi.report(token, 'portfolios', new URLSearchParams({ page: String(pageNumber++), page_size: '100' })); items.push(...data.items); total = data.total; } while (items.length < total);
+      if (active) setRollups(Object.fromEntries(items.map(item => [String(item.id), item])));
+    }
+    load().catch(() => { if (active) setError('This page could not be loaded'); });
+    return () => { active = false; };
+  }, [token, revision]);
   useEffect(() => {
     let active = true;
     setLoading(true); setError('');
@@ -76,16 +90,16 @@ export default function Portfolios({ token, account }: Props) {
         <section className="portfolio-list" aria-label="Portfolio list">
           {result.items.length === 0 ? <p>{search ? 'No portfolio matches that search.' : 'No portfolios yet.'}</p> : <div className="table-scroll"><table>
             <thead><tr><th scope="col">Name</th><th scope="col">Owner</th><th scope="col">Product area</th><th scope="col">Applications</th><th scope="col">Quality</th><th scope="col">Status</th></tr></thead>
-            <tbody>{result.items.map(item => <tr key={item.id} className={selected?.id === item.id ? 'selected-row' : ''}><td><button className="text-button" onClick={() => setSelected(item)}>{item.name}</button></td><td>{item.owner}</td><td>{item.product_area}</td><td>{item.application_count}</td><td>—</td><td><span className={`status-chip ${item.status.toLowerCase()}`}>{item.status}</span></td></tr>)}</tbody>
+            <tbody>{result.items.map(item => <tr key={item.id} className={selected?.id === item.id ? 'selected-row' : ''}><td><button className="text-button" onClick={() => setSelected(item)}>{item.name}</button></td><td>{item.owner}</td><td>{item.product_area}</td><td>{item.application_count}</td><td>{rollups[item.id]?.quality ?? '—'}</td><td><span className={`status-chip ${item.status.toLowerCase()}`}>{item.status}</span></td></tr>)}</tbody>
           </table></div>}
           <div className="pagination"><button className="text-button" disabled={page === 1} onClick={() => setPage(page - 1)}>Previous</button><span>Page {page} · {result.total ? (page - 1) * result.page_size + 1 : 0}–{Math.min(page * result.page_size, result.total)} of {result.total}</span><button className="text-button" disabled={page * result.page_size >= result.total} onClick={() => setPage(page + 1)}>Next</button></div>
         </section>
         {selected && <section className="portfolio-detail" aria-label="Portfolio details">
           <h2>{selected.name}</h2><span className={`status-chip ${selected.status.toLowerCase()}`}>{selected.status}</span>
-          <dl><dt>Owner</dt><dd>{selected.owner}</dd><dt>Product area</dt><dd>{selected.product_area}</dd><dt>Description</dt><dd>{selected.description || 'No description yet.'}</dd><dt>Applications</dt><dd>{selected.application_count}</dd><dt>Quality</dt><dd>—</dd><dt>Open critical defects</dt><dd>—</dd></dl>
+          <dl><dt>Owner</dt><dd>{selected.owner}</dd><dt>Product area</dt><dd>{selected.product_area}</dd><dt>Description</dt><dd>{selected.description || 'No description yet.'}</dd><dt>Applications</dt><dd>{selected.application_count}</dd><dt>Quality</dt><dd>{rollups[selected.id]?.quality ?? '—'}</dd><dt>Open critical defects</dt><dd>{rollups[selected.id]?.open_critical_defects ?? '—'}</dd></dl>
           <h3>Applications</h3>
           {applicationsError && <p role="alert">{applicationsError}</p>}
-          {applications.map(item => <p key={item.id}><a href={`/applications/${item.id}`}>{item.name}</a> · {item.criticality} · {item.lifecycle}</p>)}
+          {applications.map(item => <p key={item.id}><a href={`/applications/${item.id}`}>{item.name}</a> · {item.criticality} · {item.lifecycle} · Health {latest[item.id]?.health ?? '—'} · {latest[item.id]?.risk || 'No review'}</p>)}
           {selected.application_count > applications.length && <a href={`/applications?portfolio_id=${encodeURIComponent(selected.id)}&lifecycle=All&include_archived=true`}>View all applications</a>}
           <div className="portfolio-actions">{canEdit && <button className="secondary" onClick={() => setForm('edit')}>Edit</button>}{canEdit && selected.status === 'Active' && <button className="text-button danger" onClick={() => setDialog('archive')}>Archive</button>}{account.role === 'administrator' && <button className="text-button danger" onClick={() => setDialog('delete')}>Delete</button>}</div>
         </section>}

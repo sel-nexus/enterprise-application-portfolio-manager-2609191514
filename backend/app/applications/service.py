@@ -34,12 +34,12 @@ class ApplicationService:
         if not await self.repo.portfolio(portfolio_id):
             raise HTTPException(status_code=404, detail='Portfolio not found.')
 
-    async def list(self, user: dict, search: str, portfolio_id: str, criticality: str, lifecycle: str, include_archived: bool, page: int, page_size: int) -> ApplicationPage:
+    async def list(self, user: dict, search: str, portfolio_id: str, criticality: str, lifecycle: str, include_archived: bool, page: int, page_size: int, risk: str = 'All') -> ApplicationPage:
         """List authorized identities with bounded pagination."""
         await self.accounts.authorize(user, 'view', resource='application')
         if portfolio_id:
             await self.accounts.authorize(user, 'view', portfolio_id, 'application')
-        docs, total = await self.repo.list(self.accounts.portfolio_scope(user), search, portfolio_id, criticality, lifecycle, include_archived, page, page_size)
+        docs, total = await self.repo.list(self.accounts.portfolio_scope(user), search, portfolio_id, criticality, lifecycle, include_archived, page, page_size, risk)
         return ApplicationPage(items=[await self.present(doc) for doc in docs], total=total, page=page, page_size=page_size)
 
     async def create(self, user: dict, data: ApplicationInput) -> ApplicationResponse:

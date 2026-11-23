@@ -8,6 +8,8 @@ import Applications from './applications/Applications';
 import ApplicationRecord from './applications/ApplicationRecord';
 import ReviewsDue from './reviews/ReviewsDue';
 import Dependencies from './dependencies/Dependencies';
+import Dashboard from './reporting/Dashboard';
+import Reports from './reporting/Reports';
 
 const storageKey = 'portfolio-session';
 
@@ -52,12 +54,14 @@ function Shell() {
   if (setup) return <main className="auth-layout"><section className="auth-card"><h1>Enterprise Application<br />Portfolio Manager</h1><PasswordForm token={token} initial onChanged={accept} /><button className="text-button" onClick={clear}>Back to sign in</button></section></main>;
   return (
     <div className="shell">
-      <aside className="rail"><strong>Enterprise Application<br />Portfolio Manager</strong><nav className="shell-nav" aria-label="Main navigation"><Link to="/portfolios" aria-current={location.pathname === '/portfolios' ? 'page' : undefined}>Portfolios</Link><Link to="/applications" aria-current={location.pathname.startsWith('/applications') ? 'page' : undefined}>Applications</Link><Link to="/reviews-due" aria-current={location.pathname === '/reviews-due' ? 'page' : undefined}>Reviews due</Link><Link to="/dependencies" aria-current={location.pathname === '/dependencies' ? 'page' : undefined}>Dependencies</Link><Link to="/account" aria-current={location.pathname === '/account' ? 'page' : undefined}>Account</Link></nav><div className="rail-account">{account?.name}<small>{account?.role.replaceAll('_', ' ')}</small></div></aside>
+      <aside className="rail"><strong>Enterprise Application<br />Portfolio Manager</strong><nav className="shell-nav" aria-label="Main navigation"><Link to="/dashboard" aria-current={location.pathname === '/dashboard' ? 'page' : undefined}>Executive dashboard</Link><Link to="/portfolios" aria-current={location.pathname === '/portfolios' ? 'page' : undefined}>Portfolios</Link><Link to="/applications" aria-current={location.pathname.startsWith('/applications') ? 'page' : undefined}>Applications</Link><Link to="/reviews-due" aria-current={location.pathname === '/reviews-due' ? 'page' : undefined}>Reviews due</Link><Link to="/dependencies" aria-current={location.pathname === '/dependencies' ? 'page' : undefined}>Dependencies</Link><Link to="/reports" aria-current={location.pathname === '/reports' ? 'page' : undefined}>Reports</Link><Link to="/account" aria-current={location.pathname === '/account' ? 'page' : undefined}>Account</Link></nav><div className="rail-account">{account?.name}<small>{account?.role.replaceAll('_', ' ')}</small></div></aside>
       <main className="content">
         {location.pathname === '/account' && <header><h1>Account</h1><p>Manage your account and sign-in preferences.</p></header>}
         {loading && <p role="status">Loading account…</p>}
         {error && <div className="account-card" role="alert"><p>{error}</p><button className="secondary" onClick={() => { if (account) void signOut(); else setRetry(retry + 1); }}>Try again</button></div>}
         {account && <Routes>
+          <Route path="/dashboard" element={<Dashboard token={token} account={account} />} />
+          <Route path="/reports" element={<Reports token={token} account={account} />} />
           <Route path="/portfolios" element={<Portfolios token={token} account={account} />} />
           <Route path="/applications" element={<Applications token={token} account={account} />} />
           <Route path="/applications/:applicationId" element={<ApplicationRecord token={token} account={account} />} />

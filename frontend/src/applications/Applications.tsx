@@ -5,6 +5,7 @@ import { portfoliosApi, type Portfolio } from '../portfolios/api';
 import ApplicationForm from './ApplicationForm';
 import { reviewsApi, type Review } from '../reviews/api';
 import { applicationsApi, type ApplicationInput, type ApplicationPage } from './api';
+import { reportingApi } from '../reporting/api';
 
 interface Props { token: string; account: Account }
 
@@ -60,13 +61,14 @@ export default function Applications({ token, account }: Props) {
     <>
       <header className="portfolio-header">
         <div><h1>Applications</h1><p>Every application in the portfolios you can see.</p></div>
-        {canEdit && <button className="primary" onClick={() => setForm(true)}>New application</button>}
+        <div>{account.role !== 'read_only' && result && result.total > 0 && <button className="secondary" onClick={() => { const filters = new URLSearchParams(params); filters.delete('page'); reportingApi.export(token, 'applications', filters).catch(() => setError('Export failed. Try again.')); }}>Export</button>}{canEdit && <button className="primary" onClick={() => setForm(true)}>New application</button>}</div>
       </header>
       {error && <div className="account-card" role="alert"><p>{error}</p><button className="secondary" onClick={() => setRevision(x => x + 1)}>Try again</button></div>}
       <div className="portfolio-filters application-filters">
         <label>Search name or business owner<input value={params.get('search') || ''} onChange={e => change('search', e.target.value)} /></label>
         <label>Portfolio<select value={params.get('portfolio_id') || ''} onChange={e => change('portfolio_id', e.target.value)}><option value="">All</option>{portfolios.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}</select></label>
         <label>Criticality<select value={params.get('criticality') || 'All'} onChange={e => change('criticality', e.target.value)}>{['All', 'Low', 'Medium', 'High', 'Critical'].map(v => <option key={v}>{v}</option>)}</select></label>
+        <label>Risk<select value={params.get('risk') || 'All'} onChange={e => change('risk', e.target.value)}>{['All', 'Low', 'Medium', 'High', 'No review'].map(v => <option key={v}>{v}</option>)}</select></label>
         <label>Lifecycle<select value={params.get('lifecycle') || 'Default'} onChange={e => change('lifecycle', e.target.value)}><option value="Default">Active and Deprecated</option>{['All', 'Active', 'Deprecated', 'Retired'].map(v => <option key={v}>{v}</option>)}</select></label>
         <label className="radio"><input type="checkbox" checked={params.get('include_archived') === 'true'} onChange={e => change('include_archived', e.target.checked ? 'true' : '')} />Include archived portfolios</label>
         <button className="text-button" onClick={() => setParams({})}>Clear filters</button>

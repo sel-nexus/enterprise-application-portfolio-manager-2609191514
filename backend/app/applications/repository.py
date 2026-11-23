@@ -29,7 +29,7 @@ class ApplicationRepository:
             return None
         return await self.db.portfolios.find_one({'_id': ObjectId(portfolio_id)})
 
-    async def list(self, scope: list[str] | None, search: str, portfolio_id: str, criticality: str, lifecycle: str, include_archived: bool, page: int, page_size: int) -> tuple[list[dict], int]:
+    async def list(self, scope: list[str] | None, search: str, portfolio_id: str, criticality: str, lifecycle: str, include_archived: bool, page: int, page_size: int, risk: str = 'All') -> tuple[list[dict], int]:
         """Return a page within the permitted portfolio and lifecycle scope."""
         portfolios: dict = {} if include_archived else {'status': 'Active'}
         if scope is not None:
@@ -46,6 +46,10 @@ class ApplicationRepository:
         if criticality != 'All':
             query['criticality'] = criticality
         query['lifecycle'] = {'$in': ['Active', 'Deprecated']} if lifecycle == 'Default' else ({'$in': ['Active', 'Deprecated', 'Retired']} if lifecycle == 'All' else lifecycle)
+        if risk != 'All':
+            pipeline = [{'$match': query}, {'$lookup': {'from': 'reviews', 'let': {'aid': {'$toString': '$_id'}}, 'pipeline': [{'$match': {'$expr': {'$eq': ['$application_id', '$$aid']}}}, {'$sort': {'date': -1, 'created_at': -1, '_id': -1}}, {'$limit': 1}], 'as': 'latest'}}, {'$match': {'latest.risk': risk} if risk != 'No review' else {'latest': {'$size': 0}}}, {'$project': {'latest': 0}}, {'$sort': {'name_key': 1, '_id': 1}}, {'$facet': {'items': [{'$skip': (page - 1) * page_size}, {'$limit': page_size}], 'count': [{'$count': 'total'}]}}]
+            result = await (await self.db.applications.aggregate(pipeline)).to_list(None)
+            return result[0]['items'], result[0]['count'][0]['total'] if result[0]['count'] else 0
         total = await self.db.applications.count_documents(query)
         cursor = self.db.applications.find(query).sort([('name_key', 1), ('_id', 1)]).skip((page - 1) * page_size).limit(page_size)
         return await cursor.to_list(None), total
