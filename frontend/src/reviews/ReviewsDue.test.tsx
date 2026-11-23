@@ -11,6 +11,20 @@ vi.mock('./api', () => ({ reviewsApi: { due: vi.fn(), record: vi.fn(), eligible:
 const account = { id: 'u', name: 'Reader', email: 'reader@example.com', role: 'read_only', portfolio_ids: [], last_sign_in: null, landing_page: 'reviews_due' as const };
 afterEach(() => { cleanup(); vi.resetAllMocks(); });
 
+it('separates review creation and assignment and respects portfolio scope', async () => {
+  vi.mocked(reviewsApi.due).mockResolvedValue({ interval: 90, due_count: 1, total: 1, page: 1, page_size: 25, chart: [], items: [{ application_id: 'a', application_name: 'Payments', portfolio_id: 'p', portfolio_name: 'Finance', last_review: null, days_since_review: null, assigned_reviewer_name: null, risk: null, standing: 'No review' }] });
+  const engineer = { ...account, role: 'engineer', portfolio_ids: ['p'], permissions: { view: true, create: true, edit: false, delete: false, export: false, administer: false } };
+  const { rerender } = render(<MemoryRouter><ReviewsDue token="token" account={engineer} /></MemoryRouter>);
+  expect(await screen.findByRole('button', { name: 'Record a review' })).toBeInTheDocument();
+  expect(screen.queryByRole('button', { name: 'Assign reviewer' })).not.toBeInTheDocument();
+  rerender(<MemoryRouter><ReviewsDue token="token" account={{ ...engineer, permissions: { ...engineer.permissions, create: false, edit: true } }} /></MemoryRouter>);
+  expect(screen.queryByRole('button', { name: 'Record a review' })).not.toBeInTheDocument();
+  expect(screen.getByRole('button', { name: 'Assign reviewer' })).toBeInTheDocument();
+  rerender(<MemoryRouter><ReviewsDue token="token" account={{ ...engineer, portfolio_ids: ['other'] }} /></MemoryRouter>);
+  expect(screen.queryByRole('button', { name: 'Record a review' })).not.toBeInTheDocument();
+  expect(screen.queryByRole('button', { name: 'Assign reviewer' })).not.toBeInTheDocument();
+});
+
 it('renders due counts and hides write actions from a read-only user', async () => {
   vi.mocked(reviewsApi.due).mockResolvedValue({ interval: 90, due_count: 1, total: 1, page: 1, page_size: 25, chart: [{ portfolio_id: 'p', portfolio_name: 'Finance', current: 2, due: 1 }], items: [{ application_id: 'a', application_name: 'Payments', portfolio_id: 'p', portfolio_name: 'Finance', last_review: null, days_since_review: null, assigned_reviewer_name: null, risk: null, standing: 'No review' }] });
   render(<MemoryRouter><ReviewsDue token="token" account={account} /></MemoryRouter>);

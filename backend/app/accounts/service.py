@@ -51,10 +51,13 @@ class AccountService:
         except (PyJWTError, ValueError, KeyError, TypeError):
             raise HTTPException(status_code=401, detail="Invalid or expired session.", headers={"WWW-Authenticate": "Bearer"}) from None
 
-    def account(self, user: dict) -> AccountResponse:
-        """Select public account fields and determine the default landing page."""
+    async def account(self, user: dict) -> AccountResponse:
+        """Expose effective role permissions and the default landing page."""
         default = "dashboard" if user["role"] in {"administrator", "executive"} else "applications"
-        return AccountResponse(id=str(user["_id"]), name=user["name"], email=user["email"], role=user["role"], portfolio_ids=[str(p) for p in user.get("portfolio_ids", [])], last_sign_in=user.get("last_sign_in"), landing_page=user.get("landing_page") or default)
+        role = await self.repo.db.roles.find_one({"name": user["role"]})
+        restrictions = role.get("permissions") if role else None
+        permissions = {action: can_access(user, action, permissions=restrictions) for action in ("view", "create", "edit", "delete", "export", "administer")}
+        return AccountResponse(id=str(user["_id"]), name=user["name"], email=user["email"], role=user["role"], permissions=permissions, portfolio_ids=[str(p) for p in user.get("portfolio_ids", [])], last_sign_in=user.get("last_sign_in"), landing_page=user.get("landing_page") or default)
 
     async def change_password(self, user: dict, data: PasswordChange) -> TokenResponse:
         """Verify the current password and replace all prior sessions."""
@@ -72,7 +75,7 @@ class AccountService:
         await self.repo.update(user["_id"], {"landing_page": landing})
         await self.repo.audit(user["name"], "edit", str(user["_id"]), "Changed landing page.")
         user["landing_page"] = landing
-        return self.account(user)
+        return await self.account(user)
 
     async def authorize(self, user: dict, action: str, portfolio_id: str | None = None, resource: str | None = None) -> None:
         """Enforce role and portfolio restrictions for later feature routes."""

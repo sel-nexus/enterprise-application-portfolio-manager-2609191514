@@ -3,6 +3,8 @@ from datetime import date as Date
 from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
+from app.core.text_validation import reject_markup
+
 
 class ReviewInput(BaseModel):
     """Capture a dated assessment of an application."""
@@ -16,6 +18,12 @@ class ReviewInput(BaseModel):
     open_critical_defects: int = Field(ge=0, strict=True)
     risk: Literal['Low', 'Medium', 'High']
     note: str = Field(default='', max_length=4000)
+
+    @field_validator('note')
+    @classmethod
+    def validate_note(cls, value: str) -> str:
+        """Reject markup in new review notes."""
+        return reject_markup(value)
 
     @field_validator('date')
     @classmethod

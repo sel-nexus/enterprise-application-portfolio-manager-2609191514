@@ -1,9 +1,9 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures';
+import { readFile } from 'node:fs/promises';
+import { randomUUID } from 'node:crypto';
 
-test('administrator creates, edits, retires and deletes an application', async ({ page }) => {
-  const email = process.env.E2E_EMAIL;
-  const password = process.env.E2E_NEW_PASSWORD;
-  if (!email || !password) throw new Error('Set E2E_EMAIL and E2E_NEW_PASSWORD for an existing administrator.');
+test('administrator creates, edits, retires and deletes an application', async ({ page, admin }) => {
+  const { email, password } = admin;
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
@@ -44,5 +44,47 @@ test('administrator creates, edits, retires and deletes an application', async (
   await page.getByRole('button', { name: 'Delete', exact: true }).click();
   await page.getByRole('dialog').getByRole('button', { name: 'Delete' }).click();
   await expect(page.getByRole('heading', { name: 'Applications', exact: true })).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
+test('application inventory exports only the filtered results', async ({ page, request, admin }) => {
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
+  const login = await request.post('/api/v1/accounts/login', { data: { email: admin.email, password: admin.password } });
+  expect(login.status()).toBe(200);
+  const token = (await login.json()).access_token;
+  const headers = { Authorization: `Bearer ${token}` };
+  const id = randomUUID();
+  const portfolio = await request.post('/api/v1/portfolios', { headers, data: { name: `CSV portfolio ${id}`, owner: 'CSV owner', product_area: 'Finance' } });
+  expect(portfolio.status()).toBe(201);
+  const portfolioId = (await portfolio.json()).id;
+  const included = `CSV included ${id}`, excluded = `CSV excluded ${id}`;
+  for (const name of [included, excluded]) {
+    const created = await request.post('/api/v1/applications', { headers, data: { name, portfolio_id: portfolioId, tier: 1 } });
+    expect(created.status()).toBe(201);
+  }
+  await page.goto('/');
+  await page.getByLabel('Email').fill(admin.email);
+  await page.getByLabel('Password', { exact: true }).fill(admin.password);
+  await page.getByRole('button', { name: 'Sign in' }).click();
+  await page.getByRole('link', { name: 'Applications', exact: true }).click();
+  await page.getByLabel('Search name or business owner').fill(included);
+  await expect(page.getByRole('link', { name: included, exact: true })).toBeVisible();
+  await expect(page.getByRole('link', { name: excluded, exact: true })).toHaveCount(0);
+  const response = page.waitForResponse(r => r.url().includes('/api/v1/reporting/applications/export?'));
+  const downloadEvent = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Export', exact: true }).click();
+  const exported = await response;
+  expect(exported.status()).toBe(200);
+  expect(new URL(exported.url()).searchParams.get('search')).toBe(included);
+  const download = await downloadEvent;
+  expect(download.suggestedFilename()).toBe('applications.csv');
+  const csvPath = await download.path();
+  expect(csvPath).toBeTruthy();
+  const csv = await readFile(csvPath!, 'utf8');
+  expect(csv).toContain('Name,Portfolio,');
+  expect(csv).toContain(included);
+  expect(csv).not.toContain(excluded);
   expect(errors).toEqual([]);
 });

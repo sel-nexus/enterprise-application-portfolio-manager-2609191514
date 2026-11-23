@@ -1,8 +1,7 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures';
 
-test('recording a review removes an unreviewed application from the queue', async ({ page }) => {
-  const email = process.env.E2E_EMAIL, password = process.env.E2E_NEW_PASSWORD;
-  if (!email || !password) throw new Error('Set E2E_EMAIL and E2E_NEW_PASSWORD for an existing administrator.');
+test('recording a review removes an unreviewed application from the queue', async ({ page, admin }) => {
+  const { email, password } = admin;
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
@@ -23,10 +22,17 @@ test('recording a review removes an unreviewed application from the queue', asyn
   await page.getByLabel('Name', { exact: true }).fill(name);
   await page.getByRole('dialog').getByLabel('Portfolio').selectOption({ label: portfolio });
   await page.getByRole('button', { name: 'Save', exact: true }).click();
+  await expect(page.getByRole('heading', { name, exact: true })).toBeVisible();
   await page.getByRole('link', { name: 'Reviews due', exact: true }).click();
   await page.getByLabel('Portfolio').selectOption({ label: portfolio });
   const row = page.getByRole('row').filter({ hasText: name });
   await expect(row).toContainText('No review');
+  await row.getByRole('button', { name: 'Assign reviewer' }).click();
+  const assignment = page.getByRole('dialog');
+  await expect(assignment.getByRole('button', { name: 'Save' })).toBeEnabled();
+  await assignment.getByLabel('Reviewer').selectOption({ label: admin.name });
+  await assignment.getByRole('button', { name: 'Save' }).click();
+  await expect(row).toContainText(admin.name);
   await row.getByRole('button', { name: 'Record a review' }).click();
   for (const field of ['Health', 'Quality', 'Automation coverage', 'Unit-test coverage']) await page.getByLabel(field).fill('80');
   await page.getByLabel('Open defects').fill('2');
@@ -39,5 +45,10 @@ test('recording a review removes an unreviewed application from the queue', asyn
   await page.getByRole('link', { name, exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Latest review' })).toBeVisible();
   await expect(page.getByText('80', { exact: true }).first()).toBeVisible();
+  await expect(page.locator('section').filter({ has: page.getByRole('heading', { name: 'Ownership' }) })).toContainText(admin.name);
+  await page.getByRole('button', { name: 'Assign reviewer' }).click();
+  await page.getByRole('dialog').getByLabel('Reviewer').selectOption('');
+  await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click();
+  await expect(page.getByText('Not assigned')).toBeVisible();
   expect(errors).toEqual([]);
 });

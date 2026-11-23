@@ -42,7 +42,7 @@ async def login(data: LoginRequest, service: Annotated[AccountService, Depends(g
 @router.get("/me", response_model=AccountResponse, summary="Read account")
 async def me(session: Annotated[tuple[dict, dict], Depends(current_session)], service: Annotated[AccountService, Depends(get_service)]) -> AccountResponse:
     """Return the authenticated person's account."""
-    return service.account(session[0])
+    return await service.account(session[0])
 
 
 @router.put("/password", response_model=TokenResponse, summary="Change password")

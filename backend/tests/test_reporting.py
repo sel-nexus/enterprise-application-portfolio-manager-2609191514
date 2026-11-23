@@ -78,14 +78,19 @@ async def test_dashboard_latest_filters_lifecycle_and_empty(env):
     assert (data['quality'], data['health'], data['automation_coverage']) == (81, 81, 81)
     assert (data['applications'], data['portfolios'], data['open_critical_defects'], data['applications_at_risk']) == (2, 1, 4, 1)
     assert data['groups'][0]['reviews_due'] == 1
-    filtered = (await http.get(BASE + '/dashboard', headers=headers['engineer'], params={'risk': 'High'})).json()
+    filtered_response = await http.get(BASE + '/dashboard', headers=headers['engineer'], params={'risk': 'High'})
+    assert filtered_response.status_code == 200
+    filtered = filtered_response.json()
     assert filtered['quality'] == 80 and filtered['applications'] == 1
-    empty = (await http.get(BASE + '/dashboard', headers=headers['engineer'], params={'product_area': 'Elsewhere'})).json()
+    empty_response = await http.get(BASE + '/dashboard', headers=headers['engineer'], params={'product_area': 'Elsewhere'})
+    assert empty_response.status_code == 200
+    empty = empty_response.json()
     assert empty['quality'] is None and empty['applications'] == 0 and empty['groups'] == []
     assert (await http.get(BASE + '/dashboard', headers=headers['engineer'], params={'portfolio_id': other})).status_code == 403
     assert (await http.get(BASE + '/dashboard', headers=headers['engineer'], params={'risk': 'Severe'})).status_code == 422
     assert (await http.get(BASE + '/dashboard')).status_code == 401
-    assert (await http.get('/api/v1/applications', headers=headers['engineer'], params={'risk': 'High'})).json()['total'] == 1
+    applications = await http.get('/api/v1/applications', headers=headers['engineer'], params={'risk': 'High'})
+    assert applications.status_code == 200 and applications.json()['total'] == 1
 
 
 async def test_reports_export_scope_and_csv_injection(env):
@@ -99,7 +104,9 @@ async def test_reports_export_scope_and_csv_injection(env):
     await db.users.update_one({'_id': users['engineer']['_id']}, {'$set': {'portfolio_ids': [pid]}})
     await db.users.update_one({'_id': users['read_only']['_id']}, {'$set': {'portfolio_ids': [pid]}})
     params = {'lifecycle': 'All', 'include_archived': 'true'}
-    result = (await http.get(BASE + '/applications', headers=headers['engineer'], params=params)).json()
+    report_response = await http.get(BASE + '/applications', headers=headers['engineer'], params=params)
+    assert report_response.status_code == 200
+    result = report_response.json()
     assert result['total'] == 2
     row = next(x for x in result['items'] if x['id'] == a)
     assert row['depends_on'] == 1 and row['review_standing'] == 'No review'
@@ -110,7 +117,8 @@ async def test_reports_export_scope_and_csv_injection(env):
     assert 'Secret' not in response.text
     assert await db.audit.count_documents({'action': 'export', 'record': 'applications'}) == 1
     assert (await http.get(BASE + '/applications/export', headers=headers['read_only'])).status_code == 403
-    assert (await http.get(BASE + '/portfolios', headers=headers['engineer'])).json()['items'][0]['applications'] == 1
+    portfolios = await http.get(BASE + '/portfolios', headers=headers['engineer'])
+    assert portfolios.status_code == 200 and portfolios.json()['items'][0]['applications'] == 1
     assert (await http.get(BASE + '/portfolios/export', headers=headers['engineer'])).status_code == 200
     assert (await http.get(BASE + '/applications', headers=headers['engineer'], params={'page_size': 101})).status_code == 422
     await db.roles.insert_one({'name': 'engineer', 'permissions': {'view': True, 'export': False}})
@@ -120,11 +128,34 @@ async def test_reports_export_scope_and_csv_injection(env):
 async def test_empty_report_and_filtered_export(env):
     http, db, users, headers = env
     admin = headers['administrator']
-    assert (await http.get(BASE + '/portfolios', headers=admin)).json()['total'] == 0
-    assert (await http.get(BASE + '/dashboard', headers=admin)).json()['quality'] is None
+    portfolios = await http.get(BASE + '/portfolios', headers=admin)
+    assert portfolios.status_code == 200 and portfolios.json()['total'] == 0
+    dashboard = await http.get(BASE + '/dashboard', headers=admin)
+    assert dashboard.status_code == 200 and dashboard.json()['quality'] is None
     pid = await add_portfolio(db, 'Finance')
     a = await add_app(db, pid, 'One')
     await add_app(db, pid, 'Two')
     await add_review(db, a, 75, risk='High')
     response = await http.get(BASE + '/applications/export', headers=admin, params={'risk': 'High', 'search': 'One'})
+    assert response.status_code == 200
     assert len(list(csv.DictReader(io.StringIO(response.text)))) == 1
+
+
+async def test_report_filter_limits_and_operator_text(env):
+    http, db, users, headers = env
+    admin = headers['administrator']
+    pid = await add_portfolio(db, 'Finance')
+    await add_app(db, pid, 'One')
+    for path in ('/dashboard', '/applications', '/applications/export'):
+        for search in ('{"$ne":null}', '.*', '$where'):
+            response = await http.get(BASE + path, headers=admin, params={'search': search})
+            assert response.status_code == 200
+            if path == '/dashboard':
+                assert response.json()['applications'] == 0
+            elif path == '/applications':
+                assert response.json()['total'] == 0
+            else:
+                assert list(csv.DictReader(io.StringIO(response.text))) == []
+        assert (await http.get(BASE + path, headers=admin, params={'search': 'x' * 201})).status_code == 422
+    assert (await http.get(BASE + '/applications', headers=admin, params={'page': 0})).status_code == 422
+    assert (await http.get(BASE + '/unknown', headers=admin)).status_code == 422

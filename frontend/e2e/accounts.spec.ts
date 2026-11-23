@@ -1,18 +1,22 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 
-test('first sign-in, password selection, preferences and sign-out', async ({ page }) => {
-  const email = process.env.E2E_EMAIL;
-  const temporary = process.env.E2E_TEMP_PASSWORD;
-  const replacement = process.env.E2E_NEW_PASSWORD;
-  if (!email || !temporary || !replacement) throw new Error('Set E2E_EMAIL, E2E_TEMP_PASSWORD and E2E_NEW_PASSWORD for an isolated fresh account.');
+test('first sign-in, password selection, preferences and sign-out', async ({ page, freshAdmin }) => {
+  const { email, temporary, password: replacement } = freshAdmin;
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
-  page.on('console', message => { if (message.type() === 'error' && !message.text().includes('401')) errors.push(message.text()); });
+  let expectingInvalidLogin = false;
+  page.on('console', message => {
+    if (message.type() === 'error' && !(expectingInvalidLogin && message.text() === 'Failed to load resource: the server responded with a status of 401 (Unauthorized)' && message.location().url.endsWith('/api/v1/accounts/login'))) errors.push(message.text());
+  });
   await page.goto('/');
   await page.getByLabel('Email').fill(email);
   await page.getByLabel('Password', { exact: true }).fill('incorrect');
+  expectingInvalidLogin = true;
+  const failedLogin = page.waitForResponse(response => response.url().endsWith('/api/v1/accounts/login') && response.request().method() === 'POST');
   await page.getByRole('button', { name: 'Sign in' }).click();
+  expect((await failedLogin).status()).toBe(401);
   await expect(page.getByRole('alert')).toHaveText('Email or password is incorrect.');
+  expectingInvalidLogin = false;
   await page.getByLabel('Password', { exact: true }).fill(temporary);
   await page.getByRole('button', { name: 'Sign in' }).click();
   await expect(page.getByRole('heading', { name: 'Choose your password' })).toBeVisible();
@@ -20,6 +24,7 @@ test('first sign-in, password selection, preferences and sign-out', async ({ pag
   await page.getByLabel('New password').fill(replacement);
   await page.getByLabel('Confirm password').fill(replacement);
   await page.getByRole('button', { name: 'Save password' }).click();
+  await page.getByRole('link', { name: 'Account', exact: true }).click();
   await expect(page.getByText(email)).toBeVisible();
   await page.getByRole('button', { name: 'Landing page' }).click();
   await page.getByRole('radio', { name: /Reviews due/ }).check();
@@ -30,7 +35,50 @@ test('first sign-in, password selection, preferences and sign-out', async ({ pag
   await page.getByLabel('Email').fill(email);
   await page.getByLabel('Password', { exact: true }).fill(replacement);
   await page.getByRole('button', { name: 'Sign in' }).click();
-  await expect(page.getByText(email)).toBeVisible();
   await expect(page).toHaveURL(/reviews-due/);
+  await page.getByRole('link', { name: 'Account', exact: true }).click();
+  await expect(page.getByText(email)).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
+test('signed-in user changes password and signs in with the replacement', async ({ page, request, admin }) => {
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  let expectingWrongPassword = false;
+  page.on('console', message => {
+    if (message.type() === 'error' && !(expectingWrongPassword && message.text() === 'Failed to load resource: the server responded with a status of 400 (Bad Request)' && message.location().url.endsWith('/api/v1/accounts/password'))) errors.push(message.text());
+  });
+  const replacement = `${admin.password}2`;
+  const newPassword = Buffer.byteLength(replacement) <= 72 ? replacement : 'E2E-ordinary-change-934751';
+  await page.goto('/');
+  await page.getByLabel('Email').fill(admin.email);
+  await page.getByLabel('Password', { exact: true }).fill(admin.password);
+  await page.getByRole('button', { name: 'Sign in' }).click();
+  await page.getByRole('link', { name: 'Account', exact: true }).click();
+  await page.getByRole('button', { name: 'Change password' }).click();
+  await page.getByLabel('Current password').fill('wrong-current-password');
+  await page.getByLabel('New password').fill(newPassword);
+  await page.getByLabel('Confirm password').fill(newPassword);
+  expectingWrongPassword = true;
+  const rejected = page.waitForResponse(response => response.url().endsWith('/api/v1/accounts/password') && response.request().method() === 'PUT');
+  await page.getByRole('button', { name: 'Save password' }).click();
+  expect((await rejected).status()).toBe(400);
+  await expect(page.getByRole('alert')).toHaveText('The current password is incorrect.');
+  expectingWrongPassword = false;
+  const stillValid = await request.post('/api/v1/accounts/login', { data: { email: admin.email, password: admin.password } });
+  expect(stillValid.status()).toBe(200);
+  await page.getByLabel('Current password').fill(admin.password);
+  const changed = page.waitForResponse(response => response.url().endsWith('/api/v1/accounts/password') && response.request().method() === 'PUT');
+  await page.getByRole('button', { name: 'Save password' }).click();
+  expect((await changed).status()).toBe(200);
+  await expect(page.getByRole('status')).toHaveText('Password changed.');
+  await page.getByRole('button', { name: 'Sign out' }).click();
+  const oldLogin = await request.post('/api/v1/accounts/login', { data: { email: admin.email, password: admin.password } });
+  expect(oldLogin.status()).toBe(401);
+  await page.getByLabel('Email').fill(admin.email);
+  await page.getByLabel('Password', { exact: true }).fill(newPassword);
+  await page.getByRole('button', { name: 'Sign in' }).click();
+  await page.getByRole('link', { name: 'Account', exact: true }).click();
+  await expect(page.getByText(admin.email)).toBeVisible();
   expect(errors).toEqual([]);
 });

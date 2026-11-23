@@ -1,7 +1,9 @@
 """Define application identity and lifecycle API contracts."""
 
 from typing import Literal
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
+
+from app.core.text_validation import reject_markup
 
 Criticality = Literal['Low', 'Medium', 'High', 'Critical']
 Lifecycle = Literal['Active', 'Deprecated', 'Retired']
@@ -20,6 +22,13 @@ class ApplicationInput(BaseModel):
     criticality: Criticality = 'Medium'
     tier: int = Field(ge=1, le=4, strict=True)
     technology_stack: str = Field(default='', max_length=2000)
+
+    @field_validator('name', 'description', 'product_area', 'business_owner',
+                     'technology_owner', 'inventory_owner', 'technology_stack')
+    @classmethod
+    def validate_text(cls, value: str) -> str:
+        """Validate new text while allowing legacy values in responses."""
+        return reject_markup(value) if cls is ApplicationInput else value
 
 
 class LifecycleInput(BaseModel):

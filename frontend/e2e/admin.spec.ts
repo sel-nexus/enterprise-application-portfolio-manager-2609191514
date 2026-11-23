@@ -1,12 +1,11 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures';
 
-test('administrator creates and deactivates a user and sees the audit event', async ({ page }) => {
-  const email = process.env.E2E_EMAIL, password = process.env.E2E_NEW_PASSWORD, temporary = process.env.E2E_TEMP_PASSWORD;
-  if (!email || !password || !temporary) throw new Error('Set E2E_EMAIL, E2E_NEW_PASSWORD and E2E_TEMP_PASSWORD for an isolated test deployment.');
+test('administrator creates and deactivates a user and sees the audit event', async ({ page, admin }) => {
+  const { email, password, temporary } = admin;
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
-  const name = `Test Person ${Date.now()}`;
+  const name = `00 Test Person ${Date.now()}`;
   const userEmail = `test-${Date.now()}@example.com`;
   await page.goto('/');
   await page.getByLabel('Email').fill(email);

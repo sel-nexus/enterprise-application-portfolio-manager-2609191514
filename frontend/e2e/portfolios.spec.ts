@@ -1,9 +1,7 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures';
 
-test('administrator creates, edits, searches, archives and deletes a portfolio', async ({ page }) => {
-  const email = process.env.E2E_EMAIL;
-  const password = process.env.E2E_NEW_PASSWORD;
-  if (!email || !password) throw new Error('Set E2E_EMAIL and E2E_NEW_PASSWORD for an existing administrator.');
+test('administrator creates, edits, searches, archives and deletes a portfolio', async ({ page, admin }) => {
+  const { email, password } = admin;
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });

@@ -4,6 +4,7 @@ export interface Account {
   name: string;
   email: string;
   role: string;
+  permissions?: Record<'view' | 'create' | 'edit' | 'delete' | 'export' | 'administer', boolean>;
   portfolio_ids: string[];
   last_sign_in: string | null;
   landing_page: Landing;

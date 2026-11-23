@@ -2,6 +2,8 @@
 from typing import Literal
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
 
+from app.core.text_validation import reject_markup
+
 RoleName = Literal['administrator', 'portfolio_leader', 'engineer', 'executive', 'auditor', 'read_only']
 
 class UserInput(BaseModel):
@@ -13,6 +15,12 @@ class UserInput(BaseModel):
     portfolio_ids: list[str] = Field(default_factory=list, max_length=200)
     vendor_staff: bool = False
     manager: str = Field(default='', max_length=200)
+
+    @field_validator('name', 'manager')
+    @classmethod
+    def validate_text(cls, value: str) -> str:
+        """Reject markup in editable profile text."""
+        return reject_markup(value)
 
 class UserCreate(UserInput):
     """Require an administrator-provided temporary credential."""
@@ -41,3 +49,9 @@ class RoleInput(BaseModel):
     model_config = ConfigDict(extra='forbid', str_strip_whitespace=True)
     description: str = Field(max_length=1000)
     permissions: Permissions
+
+    @field_validator('description')
+    @classmethod
+    def validate_description(cls, value: str) -> str:
+        """Reject markup in role descriptions."""
+        return reject_markup(value)

@@ -75,6 +75,28 @@ async def test_create_validation_uniqueness_and_audit(env):
     assert await db.audit.count_documents({'action': 'dependency_added'}) == 3
 
 
+async def test_required_dependency_fields_types_and_limits(env):
+    """Validate each request field before persisting a link."""
+    http, db, headers, _ = env
+    _, a = await estate(db, 'Alpha')
+    _, b = await estate(db, 'Beta')
+    valid = payload(a, b)
+    for field in ('from_application_id', 'to_application_id', 'relationship'):
+        response = await http.post(BASE, headers=headers['administrator'], json={k: v for k, v in valid.items() if k != field})
+        assert response.status_code == 422
+    for field in ('from_application_id', 'to_application_id', 'relationship', 'note'):
+        for invalid in (None, 123, {'$ne': None}, []):
+            response = await http.post(BASE, headers=headers['administrator'], json=valid | {field: invalid})
+            assert response.status_code == 422
+    for patch in ({'from_application_id': ''}, {'to_application_id': ''}, {'relationship': ''},
+                  {'from_application_id': 'a' * 25}, {'to_application_id': 'b' * 25}, {'note': 'x' * 2001}):
+        assert (await http.post(BASE, headers=headers['administrator'], json=valid | patch)).status_code == 422
+    assert await db.dependencies.count_documents({}) == 0
+    created = await http.post(BASE, headers=headers['administrator'], json=valid | {'note': 'x' * 2000})
+    assert created.status_code == 201 and created.json()['note'] == 'x' * 2000
+    assert await db.dependencies.count_documents({}) == 1
+
+
 async def test_scope_and_permissions_on_both_endpoints(env):
     """Do not disclose links whose other endpoint is outside scope."""
     http, db, headers, users = env

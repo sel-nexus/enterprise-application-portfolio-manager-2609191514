@@ -1,9 +1,7 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures';
 
-test('create and remove a directional dependency across both application records', async ({ page }) => {
-  const email = process.env.E2E_EMAIL;
-  const password = process.env.E2E_NEW_PASSWORD;
-  if (!email || !password) throw new Error('Set E2E_EMAIL and E2E_NEW_PASSWORD for an existing administrator.');
+test('create and remove a directional dependency across both application records', async ({ page, admin }) => {
+  const { email, password } = admin;
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
@@ -30,6 +28,21 @@ test('create and remove a directional dependency across both application records
     await page.getByRole('button', { name: 'Save', exact: true }).click();
     await expect(page.getByRole('heading', { name, exact: true })).toBeVisible();
   }
+  await page.getByRole('link', { name: '← Applications' }).click();
+  await page.getByLabel('Search name or business owner').fill(source);
+  await page.getByRole('link', { name: source, exact: true }).click();
+  await page.getByRole('button', { name: 'Add dependency' }).click();
+  const recordForm = page.getByRole('dialog');
+  await expect(recordForm.getByLabel('From', { exact: true })).toBeDisabled();
+  await expect(recordForm.getByLabel('From', { exact: true }).locator('option:checked')).toHaveText(source);
+  await recordForm.getByLabel('To', { exact: true }).selectOption({ label: target });
+  await recordForm.getByLabel('Note').fill('Created from record');
+  await recordForm.getByRole('button', { name: 'Save' }).click();
+  await expect(page.getByText('Dependency added')).toBeVisible();
+  await expect(page.getByRole('link', { name: target, exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Remove' }).click();
+  await page.getByRole('dialog').getByRole('button', { name: 'Remove' }).click();
+  await expect(page.getByText('Dependency removed')).toBeVisible();
   await page.getByRole('link', { name: 'Dependencies', exact: true }).click();
   await page.getByRole('button', { name: 'Add dependency' }).click();
   await page.getByLabel('From', { exact: true }).selectOption({ label: source });

@@ -66,15 +66,25 @@ async def test_validation_history_assignment_and_audit(env):
     first = await http.post(path, headers=admin, json=review(quality=10))
     latest = await http.post(path, headers=admin, json=review(quality=20))
     assert older.status_code == first.status_code == latest.status_code == 201
-    history = (await http.get(path, headers=admin)).json()
+    history_response = await http.get(path, headers=admin)
+    assert history_response.status_code == 200
+    history = history_response.json()
     assert [x['quality'] for x in history['items']] == [20, 10, 100]
     assert history['assigned_reviewer_id'] == engineer_id
     assert (await db.reviews.find_one({'_id': __import__('bson').ObjectId(latest.json()['id'])}))['application_id'] == aid
     assert (await http.put(path + '/assignment', headers=admin, json={'reviewer_id': str(users['read_only']['_id'])})).status_code == 422
     await db.users.update_one({'_id': users['engineer']['_id']}, {'$set': {'active': False}})
     assert (await http.put(path + '/assignment', headers=admin, json={'reviewer_id': engineer_id})).status_code == 422
-    assert (await http.get(path, headers=admin)).json()['assigned_reviewer_name'] == 'engineer'
-    assert (await http.put(path + '/assignment', headers=admin, json={'reviewer_id': None})).json()['reviewer_name'] is None
+    history_response = await http.get(path, headers=admin)
+    assert history_response.status_code == 200 and history_response.json()['assigned_reviewer_name'] == 'engineer'
+    cleared = await http.put(path + '/assignment', headers=admin, json={'reviewer_id': None})
+    assert cleared.status_code == 200 and cleared.json() == {'reviewer_id': None, 'reviewer_name': None}
+    history_after_clear = await http.get(path, headers=admin)
+    assert history_after_clear.status_code == 200
+    assert history_after_clear.json()['assigned_reviewer_id'] is None
+    assert history_after_clear.json()['assigned_reviewer_name'] is None
+    saved = await db.applications.find_one({'_id': __import__('bson').ObjectId(aid)})
+    assert saved['assigned_reviewer_id'] is None and saved['assigned_reviewer_name'] is None
     assert await db.audit.count_documents({'action': 'review_recorded', 'record': aid}) == 3
     assert await db.audit.count_documents({'action': 'reviewer_assigned', 'record': aid}) == 2
 
@@ -86,10 +96,13 @@ async def test_recent_review_removes_due_item_without_clearing_assignment(env):
     admin = headers['administrator']
     reviewer_id = str(users['engineer']['_id'])
     assert (await http.put(f'{BASE}/applications/{aid}/assignment', headers=admin, json={'reviewer_id': reviewer_id})).status_code == 200
-    assert (await http.get(BASE + '/due', headers=admin)).json()['total'] == 1
+    due = await http.get(BASE + '/due', headers=admin)
+    assert due.status_code == 200 and due.json()['total'] == 1
     assert (await http.post(f'{BASE}/applications/{aid}', headers=admin, json=review())).status_code == 201
-    assert (await http.get(BASE + '/due', headers=admin)).json()['total'] == 0
-    assert (await http.get(f'{BASE}/applications/{aid}', headers=admin)).json()['assigned_reviewer_id'] == reviewer_id
+    due = await http.get(BASE + '/due', headers=admin)
+    assert due.status_code == 200 and due.json()['total'] == 0
+    history = await http.get(f'{BASE}/applications/{aid}', headers=admin)
+    assert history.status_code == 200 and history.json()['assigned_reviewer_id'] == reviewer_id
     assert await db.reviews.count_documents({'application_id': aid}) == 1
 
 
@@ -105,7 +118,9 @@ async def test_due_order_threshold_scope_interval_and_chart(env):
     await db.users.update_one({'_id': users['engineer']['_id']}, {'$set': {'portfolio_ids': [pid]}})
     for aid, days in ((old, 91), (current, 90)):
         assert (await http.post(f'{BASE}/applications/{aid}', headers=admin, json=review(date.today() - timedelta(days=days)))).status_code == 201
-    queue = (await http.get(BASE + '/due', headers=headers['engineer'])).json()
+    queue_response = await http.get(BASE + '/due', headers=headers['engineer'])
+    assert queue_response.status_code == 200
+    queue = queue_response.json()
     assert [x['application_id'] for x in queue['items']] == [unreviewed, old]
     assert queue['chart'][0]['current'] == 1 and queue['chart'][0]['due'] == 2
     assert queue['interval'] == 90
@@ -116,7 +131,34 @@ async def test_due_order_threshold_scope_interval_and_chart(env):
     for days in (29, 366, 30.5):
         assert (await http.put(BASE + '/interval', headers=admin, json={'days': days})).status_code == 422
     assert (await http.put(BASE + '/interval', headers=admin, json={'days': 100})).status_code == 200
-    assert (await http.get(BASE + '/due', headers=headers['engineer'])).json()['total'] == 1
-    assert (await http.get(BASE + '/due', headers=headers['engineer'], params={'standing': 'Overdue'})).json()['total'] == 0
+    due = await http.get(BASE + '/due', headers=headers['engineer'])
+    assert due.status_code == 200 and due.json()['total'] == 1
+    overdue = await http.get(BASE + '/due', headers=headers['engineer'], params={'standing': 'Overdue'})
+    assert overdue.status_code == 200 and overdue.json()['total'] == 0
     assert (await http.get(BASE + '/due')).status_code == 401
     assert await db.audit.count_documents({'action': 'review_interval_change'}) == 1
+
+
+async def test_required_review_fields_eligible_and_missing_applications(env):
+    http, db, headers, users = env
+    pid, aid = await estate(db)
+    admin = headers['administrator']
+    await db.users.update_one({'_id': users['engineer']['_id']}, {'$set': {'portfolio_ids': [pid]}})
+    path = f'{BASE}/applications/{aid}'
+    eligible = await http.get(path + '/eligible-reviewers', headers=admin)
+    assert eligible.status_code == 200
+    assert {item['id'] for item in eligible.json()} == {str(users['administrator']['_id']), str(users['engineer']['_id'])}
+    assert (await http.get(path + '/eligible-reviewers', headers=headers['read_only'])).status_code == 403
+    assert (await http.get(path + '/eligible-reviewers')).status_code == 401
+    for field in ('health', 'quality', 'automation_coverage', 'unit_test_coverage', 'open_defects', 'open_critical_defects', 'risk'):
+        assert (await http.post(path, headers=admin, json={k: v for k, v in review().items() if k != field})).status_code == 422
+    for patch in ({'health': True}, {'quality': '10'}, {'note': 'x' * 4001}, {'risk': {'$ne': None}}):
+        assert (await http.post(path, headers=admin, json=review(**patch))).status_code == 422
+    for identifier in ('not-an-object-id', '000000000000000000000000'):
+        missing = f'{BASE}/applications/{identifier}'
+        assert (await http.get(missing, headers=admin)).status_code == 404
+        assert (await http.post(missing, headers=admin, json=review())).status_code == 404
+        assert (await http.get(missing + '/eligible-reviewers', headers=admin)).status_code == 404
+        assert (await http.put(missing + '/assignment', headers=admin, json={'reviewer_id': None})).status_code == 404
+    assert (await http.put(BASE + '/interval', headers=admin, json={})).status_code == 422
+    assert await db.reviews.count_documents({}) == 0

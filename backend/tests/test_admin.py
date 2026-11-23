@@ -1,6 +1,7 @@
 """Exercise administration and seeded history with real MongoDB."""
 import os
 from uuid import uuid4
+from bson import ObjectId
 import pytest
 import pytest_asyncio
 from httpx import ASGITransport, AsyncClient
@@ -60,23 +61,62 @@ async def test_user_creation_scope_and_deactivation(client):
     assert (await http.post('/api/v1/admin/users', headers=auth(token), json=payload)).status_code == 409
     engineer = await access(http, 'dana@example.com')
     assert (await http.get('/api/v1/admin/users', headers=auth(engineer))).status_code == 403
-    assert (await http.get('/api/v1/portfolios', headers=auth(engineer))).json()['total'] == 1
+    listing = await http.get('/api/v1/portfolios', headers=auth(engineer))
+    assert listing.status_code == 200 and listing.json()['total'] == 1
     identifier = created.json()['id']
     update = {k: v for k, v in payload.items() if k != 'temporary_password'}
     update['portfolio_ids'] = []
     assert (await http.put(f'/api/v1/admin/users/{identifier}', headers=auth(token), json=update)).status_code == 200
-    assert (await http.get('/api/v1/portfolios', headers=auth(engineer))).json()['total'] == 0
+    assert (await db.users.find_one({'_id': ObjectId(identifier)}))['portfolio_ids'] == []
+    listing = await http.get('/api/v1/portfolios', headers=auth(engineer))
+    assert listing.status_code == 200 and listing.json()['total'] == 0
     assert (await http.post(f'/api/v1/admin/users/{identifier}/deactivate', headers=auth(token))).status_code == 200
     assert (await http.get('/api/v1/accounts/me', headers=auth(engineer))).status_code == 401
     assert (await http.post('/api/v1/accounts/login', json={'email': 'dana@example.com', 'password': NEW})).status_code == 401
     assert (await db.users.find_one({'email': 'dana@example.com'}))['active'] is False
 
+
+async def test_user_update_rejects_unknown_portfolio_and_duplicate_email_without_writes(client):
+    http, db = client
+    token = await access(http)
+    headers = auth(token)
+    path = '/api/v1/admin/users'
+    person = {'name': 'Dana', 'email': 'dana@example.com', 'role': 'engineer', 'temporary_password': TEMP}
+    other = {'name': 'Other', 'email': 'other@example.com', 'role': 'engineer', 'temporary_password': TEMP}
+    created = await http.post(path, headers=headers, json=person)
+    assert created.status_code == 201
+    identifier = created.json()['id']
+    created_other = await http.post(path, headers=headers, json=other)
+    assert created_other.status_code == 201
+    other_id = created_other.json()['id']
+    before = await db.users.find_one({'_id': ObjectId(identifier)})
+    other_before = await db.users.find_one({'_id': ObjectId(other_id)})
+    audit_before = await db.audit.count_documents({})
+    update = {'name': 'Changed', 'email': person['email'], 'role': 'read_only', 'portfolio_ids': [str(ObjectId())]}
+    rejected = await http.put(f'{path}/{identifier}', headers=headers, json=update)
+    assert rejected.status_code == 422
+    assert rejected.json() == {'detail': 'Unknown portfolio assignment.'}
+    assert await db.users.find_one({'_id': ObjectId(identifier)}) == before
+    assert await db.users.find_one({'_id': ObjectId(other_id)}) == other_before
+    assert await db.audit.count_documents({}) == audit_before
+    rejected = await http.put(f'{path}/{identifier}', headers=headers, json=update | {'email': 'OTHER@example.com', 'portfolio_ids': []})
+    assert rejected.status_code == 409
+    assert rejected.json() == {'detail': 'A person with this email already exists.'}
+    assert await db.users.find_one({'_id': ObjectId(identifier)}) == before
+    assert await db.users.find_one({'_id': ObjectId(other_id)}) == other_before
+    assert await db.audit.count_documents({}) == audit_before
+
+
 async def test_roles_and_interval_restrict_real_routes(client):
     """Reject permission expansion and propagate changes to review queue."""
     http, db = client
     token = await access(http)
-    roles = (await http.get('/api/v1/admin/roles', headers=auth(token))).json()
+    response = await http.get('/api/v1/admin/roles', headers=auth(token))
+    assert response.status_code == 200
+    roles = response.json()
     assert len(roles) == 6
+    assert {role['name'] for role in roles} == {'administrator', 'portfolio_leader', 'engineer', 'executive', 'auditor', 'read_only'}
+    assert (await http.get('/api/v1/admin/roles')).status_code == 401
     engineer = next(r for r in roles if r['name'] == 'engineer')
     engineer['permissions']['delete'] = True
     assert (await http.put('/api/v1/admin/roles/engineer', headers=auth(token), json={'description': 'Engineering', 'permissions': engineer['permissions']})).status_code == 422
@@ -87,12 +127,15 @@ async def test_roles_and_interval_restrict_real_routes(client):
     person = {'name': 'Engineer', 'email': 'engineer@example.com', 'role': 'engineer', 'portfolio_ids': [], 'vendor_staff': False, 'manager': '', 'temporary_password': TEMP}
     assert (await http.post('/api/v1/admin/users', headers=auth(token), json=person)).status_code == 201
     engineer_token = await access(http, person['email'])
+    assert (await http.get('/api/v1/admin/roles', headers=auth(engineer_token))).status_code == 403
     denied = await http.post('/api/v1/applications', headers=auth(engineer_token), json={'name': 'Denied', 'portfolio_id': '000000000000000000000000', 'tier': 1})
     assert denied.status_code == 403
     assert (await http.put('/api/v1/reviews/interval', headers=auth(token), json={'days': 29})).status_code == 422
     assert (await http.put('/api/v1/reviews/interval', headers=auth(token), json={'days': 30})).status_code == 200
-    assert (await http.get('/api/v1/reviews/due', headers=auth(token))).json()['interval'] == 30
-    assert (await http.get('/api/v1/admin/settings', headers=auth(token))).json()['days'] == 30
+    queue = await http.get('/api/v1/reviews/due', headers=auth(token))
+    assert queue.status_code == 200 and queue.json()['interval'] == 30
+    configuration = await http.get('/api/v1/admin/settings', headers=auth(token))
+    assert configuration.status_code == 200 and configuration.json()['days'] == 30
 
 async def test_audit_authorization_filters_and_csv_safety(client):
     """Limit audit to administrators and auditors and neutralize formulas."""
@@ -108,6 +151,16 @@ async def test_audit_authorization_filters_and_csv_safety(client):
     assert csv.status_code == 200 and "'=danger" in csv.text and "'+cmd" in csv.text and "'@formula" in csv.text
     assert (await http.get('/api/v1/admin/users', headers=auth(auditor))).status_code == 403
     assert (await http.get('/api/v1/admin/audit')).status_code == 401
+    person['name'] = 'Engineer Person'
+    person['email'] = 'engineer@example.com'
+    person['role'] = 'engineer'
+    created = await http.post('/api/v1/admin/users', headers=auth(token), json=person)
+    assert created.status_code == 201
+    engineer = await access(http, person['email'])
+    before = await db.audit.count_documents({})
+    assert (await http.get('/api/v1/admin/audit/export')).status_code == 401
+    assert (await http.get('/api/v1/admin/audit/export', headers=auth(engineer))).status_code == 403
+    assert await db.audit.count_documents({}) == before
 
 async def test_seed_counts_idempotence_and_reporting(client):
     """Seed coherent history twice without resetting changes or creating credentials."""
@@ -135,3 +188,36 @@ async def test_seed_counts_idempotence_and_reporting(client):
     assert dashboard.status_code == 200 and dashboard.json()['applications'] > 30
     assert queue.status_code == 200 and queue.json()['due_count'] > 0
     assert {'No review', 'Overdue'} <= {x['standing'] for x in queue.json()['items']}
+
+
+async def test_admin_validation_settings_and_missing_users(client):
+    http, db = client
+    token = await access(http)
+    h = auth(token)
+    settings_response = await http.get('/api/v1/admin/settings', headers=h)
+    assert settings_response.status_code == 200 and settings_response.json() == {'days': 90}
+    assert (await http.get('/api/v1/admin/settings')).status_code == 401
+    payload = {'name': 'Dana', 'email': 'dana@example.com', 'role': 'engineer', 'temporary_password': TEMP}
+    for field in ('name', 'email', 'role', 'temporary_password'):
+        assert (await http.post('/api/v1/admin/users', headers=h, json={k: v for k, v in payload.items() if k != field})).status_code == 422
+    for patch in ({'email': {'$ne': None}}, {'name': 'x' * 201}, {'role': 'root'}, {'portfolio_ids': {'$ne': []}}, {'temporary_password': 'short'}):
+        assert (await http.post('/api/v1/admin/users', headers=h, json=payload | patch)).status_code == 422
+    update = {k: v for k, v in payload.items() if k != 'temporary_password'}
+    for identifier in ('not-an-object-id', '000000000000000000000000'):
+        assert (await http.put(f'/api/v1/admin/users/{identifier}', headers=h, json=update)).status_code == 404
+        assert (await http.post(f'/api/v1/admin/users/{identifier}/deactivate', headers=h)).status_code == 404
+    for query in ('{"$ne":null}', '$where'):
+        result = await http.get('/api/v1/admin/audit', headers=h, params={'who': query})
+        assert result.status_code == 200 and result.json()['total'] == 0
+    assert await db.users.count_documents({}) == 1
+    permissions = {'view': True, 'create': True, 'edit': True, 'delete': False, 'export': True, 'administer': False}
+    role_payload = {'description': 'Engineer', 'permissions': permissions}
+    for field in ('description', 'permissions'):
+        assert (await http.put('/api/v1/admin/roles/engineer', headers=h, json={k: v for k, v in role_payload.items() if k != field})).status_code == 422
+    for field in permissions:
+        incomplete = {k: v for k, v in permissions.items() if k != field}
+        assert (await http.put('/api/v1/admin/roles/engineer', headers=h, json={'description': 'Engineer', 'permissions': incomplete})).status_code == 422
+    assert (await http.put('/api/v1/admin/roles/nonexistent', headers=h, json=role_payload)).status_code == 404
+    assert (await http.post('/api/v1/admin/users', headers=h, json=payload)).status_code == 201
+    engineer = await access(http, 'dana@example.com')
+    assert (await http.get('/api/v1/admin/settings', headers=auth(engineer))).status_code == 403

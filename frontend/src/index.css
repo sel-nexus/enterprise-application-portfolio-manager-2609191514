@@ -24,6 +24,8 @@ input:not([type=radio]) { width: 100%; min-height: 40px; border: 1px solid var(-
 .notice { background: #f7fbf2; color: var(--teal); padding: 8px; }
 .shell { display: flex; min-height: 100vh; }
 .rail { background: var(--teal); color: white; width: 256px; flex: none; padding: 24px; display: flex; flex-direction: column; }
+.rail-sheet { display: flex; flex: 1; flex-direction: column; }
+.menu-toggle { display: none; }
 .rail-account { margin-top: auto; font-weight: 600; }
 .rail-account small { display: block; opacity: .8; font-weight: 400; text-transform: capitalize; }
 .content { padding: 48px; width: min(100%, 1280px); }
@@ -39,7 +41,16 @@ legend { font-weight: 600; }
 .radio input { margin-top: 6px; }
 .radio small { display: block; color: var(--muted); }
 .actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
-@media (max-width: 767px) { .shell { display: block; } .rail { width: 100%; padding: 16px; display: flex; flex-direction: row; justify-content: space-between; } .rail-account { margin: 0; } .content { padding: 24px 16px; } .auth-card { padding: 24px; } }
+@media (max-width: 767px) {
+  .shell { display: block; }
+  .rail { width: 100%; padding: 0; }
+  .rail-header { position: sticky; top: 0; z-index: 7; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px; background: var(--teal); }
+  .menu-toggle { display: block; min-height: 40px; padding: 8px 12px; border: 1px solid white; border-radius: 4px; background: transparent; color: white; }
+  .rail-sheet { display: none; position: fixed; inset: 0; z-index: 6; height: 100vh; height: 100dvh; overflow-y: auto; padding: 88px 16px 16px; background: var(--teal); }
+  .rail-sheet.open { display: flex; }
+  .content { padding: 24px 16px; }
+  .auth-card { padding: 24px; }
+}
 .shell-nav { display: grid; margin-top: 32px; gap: 4px; }
 .shell-nav a { color: white; padding: 8px; text-decoration: none; }
 .shell-nav a[aria-current=page] { border-left: 3px solid var(--green); background: #ffffff1f; }

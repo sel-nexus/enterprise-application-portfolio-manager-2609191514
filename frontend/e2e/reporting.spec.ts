@@ -1,12 +1,18 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures';
+import { readFile } from 'node:fs/promises';
 
-test('dashboard and reports reflect a newly recorded review', async ({ page }) => {
-  const email = process.env.E2E_EMAIL, password = process.env.E2E_NEW_PASSWORD;
-  if (!email || !password) throw new Error('Set E2E_EMAIL and E2E_NEW_PASSWORD for an existing administrator.');
+test('latest review propagates from the browser to inventory, portfolio and reports', async ({ page, request, admin }) => {
+  test.setTimeout(90_000);
+  const { email, password } = admin;
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
-  const portfolio = `Reporting portfolio ${Date.now()}`, application = `Reporting application ${Date.now()}`;
+  const portfolio = `00 Reporting portfolio ${Date.now()}`, application = `00 Reporting application ${Date.now()}`;
+  const login = await request.post('/api/v1/accounts/login', { data: { email, password } });
+  expect(login.status()).toBe(200);
+  const headers = { Authorization: `Bearer ${(await login.json()).access_token}` };
+  let portfolioId = '', applicationId = '';
+  try {
   await page.goto('/');
   await page.getByLabel('Email').fill(email);
   await page.getByLabel('Password', { exact: true }).fill(password);
@@ -16,25 +22,82 @@ test('dashboard and reports reflect a newly recorded review', async ({ page }) =
   await page.getByLabel('Name', { exact: true }).fill(portfolio);
   await page.getByLabel('Owner', { exact: true }).fill('Owner');
   await page.getByLabel('Product area', { exact: true }).fill('Finance');
+  const portfolioCreated = page.waitForResponse(r => r.url().endsWith('/api/v1/portfolios') && r.request().method() === 'POST');
   await page.getByRole('button', { name: 'Save', exact: true }).click();
+  const portfolioResponse = await portfolioCreated;
+  expect(portfolioResponse.status()).toBe(201);
+  portfolioId = (await portfolioResponse.json()).id;
+  await expect(page.getByText('Portfolio saved.')).toBeVisible();
   await page.getByRole('link', { name: 'Applications', exact: true }).click();
   await page.getByRole('button', { name: 'New application' }).click();
   await page.getByLabel('Name', { exact: true }).fill(application);
   await page.getByRole('dialog').getByLabel('Portfolio').selectOption({ label: portfolio });
+  const created = page.waitForResponse(r => r.url().endsWith('/api/v1/applications') && r.request().method() === 'POST');
   await page.getByRole('button', { name: 'Save', exact: true }).click();
+  const creationResponse = await created;
+  expect(creationResponse.status()).toBe(201);
+  expect((await creationResponse.json()).name).toBe(application);
+  applicationId = (await creationResponse.json()).id;
+  await expect(page.getByRole('heading', { name: application, exact: true })).toBeVisible();
+  await expect(page.getByText('Application saved.')).toBeVisible();
   await page.getByRole('button', { name: 'Record a review' }).first().click();
-  for (const field of ['Health', 'Quality', 'Automation coverage', 'Unit-test coverage']) await page.getByLabel(field).fill('80');
-  await page.getByLabel('Open defects').fill('2');
-  await page.getByLabel('Open critical defects').fill('1');
+  await page.getByLabel('Date', { exact: true }).fill('2000-01-01');
+  for (const field of ['Health', 'Quality', 'Automation coverage', 'Unit-test coverage']) await page.getByLabel(field).fill('20');
+  await page.getByLabel('Open defects').fill('8');
+  await page.getByLabel('Open critical defects').fill('4');
   await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click();
+  await expect(page.getByText('Review recorded')).toBeVisible();
+  await page.getByRole('button', { name: 'Record a review' }).first().click();
+  for (const [field, value] of [['Health', '81'], ['Quality', '72'], ['Automation coverage', '63'], ['Unit-test coverage', '54'], ['Open defects', '7'], ['Open critical defects', '3']]) await page.getByLabel(field, { exact: true }).fill(value);
+  await page.getByLabel('Risk', { exact: true }).selectOption('High');
+  const recorded = page.waitForResponse(r => r.url().endsWith(`/api/v1/reviews/applications/${applicationId}`) && r.request().method() === 'POST');
+  await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click();
+  const reviewResponse = await recorded;
+  expect(reviewResponse.status()).toBe(201);
+  expect(await reviewResponse.json()).toMatchObject({ health: 81, quality: 72, automation_coverage: 63, unit_test_coverage: 54, open_defects: 7, open_critical_defects: 3, risk: 'High' });
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await page.getByRole('link', { name: '← Applications' }).click();
+  await page.getByLabel('Search name or business owner').fill(application);
+  const inventoryRow = page.getByRole('row').filter({ hasText: application });
+  await expect(inventoryRow.getByRole('cell')).toHaveText([application, portfolio, 'Medium', '1', 'Active', '81', '63', '3', 'High']);
+  await inventoryRow.getByRole('link', { name: application }).click();
+  const latest = page.locator('section').filter({ has: page.getByRole('heading', { name: 'Latest review' }) });
+  for (const [label, value] of [['Health', '81'], ['Quality', '72'], ['Automation coverage', '63'], ['Unit-test coverage', '54'], ['Open defects', '7'], ['Open critical defects', '3'], ['Risk', 'High']]) {
+    await expect(latest.locator('dt', { hasText: new RegExp(`^${label}$`) }).locator('xpath=following-sibling::dd[1]')).toHaveText(value);
+  }
+  await page.getByRole('link', { name: portfolio, exact: true }).click();
+  const details = page.getByRole('region', { name: 'Portfolio details' });
+  await expect(details.locator('dt', { hasText: /^Quality$/ }).locator('xpath=following-sibling::dd[1]')).toHaveText('72');
+  await expect(details.locator('dt', { hasText: /^Open critical defects$/ }).locator('xpath=following-sibling::dd[1]')).toHaveText('3');
+  await expect(details.locator('p').filter({ hasText: application })).toContainText('Health 81 · High');
   await page.getByRole('link', { name: 'Executive dashboard' }).click();
   await page.getByLabel('Portfolio').selectOption({ label: portfolio });
-  await expect(page.getByText('80', { exact: true }).first()).toBeVisible();
+  for (const [label, value] of [['Average quality', '72'], ['Average health', '81'], ['Average automation coverage', '63'], ['Open critical defects', '3']]) {
+    await expect(page.locator('section').filter({ has: page.getByRole('heading', { name: label, exact: true }) }).locator('strong')).toHaveText(value);
+  }
   await page.getByRole('link', { name: 'Reports', exact: true }).click();
   await page.getByRole('button', { name: 'Open report' }).first().click();
-  await expect(page.getByRole('row').filter({ hasText: application })).toContainText('80');
+  const appRow = page.getByRole('row').filter({ hasText: application });
+  for (const [index, value] of [[10, '81'], [11, '72'], [12, '63'], [13, '54'], [14, '7'], [15, '3'], [16, 'High']] as const) await expect(appRow.getByRole('cell').nth(index)).toHaveText(value);
   const download = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Export CSV' }).click();
-  expect((await download).suggestedFilename()).toBe('applications.csv');
+  const applicationCsv = await download;
+  expect(applicationCsv.suggestedFilename()).toBe('applications.csv');
+  expect(await readFile((await applicationCsv.path())!, 'utf8')).toContain(application);
+  await page.getByRole('button', { name: 'All reports' }).click();
+  await page.getByRole('button', { name: 'Open report' }).last().click();
+  const portfolioRow = page.getByRole('row').filter({ hasText: portfolio });
+  for (const [index, value] of [[4, '1'], [5, '72'], [6, '81'], [7, '3'], [8, '1']] as const) await expect(portfolioRow.getByRole('cell').nth(index)).toHaveText(value);
+  const portfolioDownload = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Export CSV' }).click();
+  const portfolioCsv = await portfolioDownload;
+  expect(portfolioCsv.suggestedFilename()).toBe('portfolios.csv');
+  expect(await readFile((await portfolioCsv.path())!, 'utf8')).toContain(portfolio);
   expect(errors).toEqual([]);
+  } finally {
+    const deletedApp = applicationId ? await request.delete(`/api/v1/applications/${applicationId}`, { headers }) : null;
+    const deletedPortfolio = portfolioId ? await request.delete(`/api/v1/portfolios/${portfolioId}`, { headers }) : null;
+    if (deletedApp) expect(deletedApp.status(), 'delete test application').toBe(204);
+    if (deletedPortfolio) expect(deletedPortfolio.status(), 'delete test portfolio').toBe(204);
+  }
 });

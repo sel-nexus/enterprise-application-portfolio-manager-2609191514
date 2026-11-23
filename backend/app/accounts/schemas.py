@@ -48,6 +48,7 @@ class AccountResponse(BaseModel):
     name: str
     email: str
     role: str
+    permissions: dict[str, bool]
     portfolio_ids: list[str]
     last_sign_in: datetime | None = None
     landing_page: Landing
